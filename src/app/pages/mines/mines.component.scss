@@ -1,0 +1,274 @@
+/* Скрытие стрелочек у input number */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.mines-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 130px);
+  padding: 20px;
+  width: 100%;
+
+
+
+
+}
+
+.mines-container {
+  display: flex;
+  gap: 30px;
+  background: rgba(21, 10, 38, 0.85);
+  border: 1px solid #2b1a4a;
+  border-radius: 16px;
+  padding: 30px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+  max-width: 900px;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+/* Настройки управления */
+.control-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .game-title {
+    color: #ff9900;
+    font-size: 28px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    label {
+      color: #a89bb9;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    input {
+      background: #110624;
+      border: 1px solid #332059;
+      border-radius: 8px;
+      padding: 12px;
+      color: #fff;
+      font-size: 16px;
+      outline: none;
+
+      &:focus {
+        border-color: #ff9900;
+      }
+    }
+    
+  }
+
+  .size-selector {
+    display: flex;
+    gap: 8px;
+
+    button {
+      flex: 1;
+      padding: 10px;
+      background: #110624;
+      border: 1px solid #332059;
+      color: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.2s;
+
+      &.active, &:hover:not([disabled]) {
+        background: #ff9900;
+        color: #110624;
+        border-color: #ff9900;
+      }
+    }
+  }
+
+  .error-banner {
+    background: rgba(255, 23, 68, 0.15);
+    border: 1px solid #ff1744;
+    color: #ff5252;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    animation: fadeIn 0.2s ease-in-out;
+  }
+
+
+
+
+  .btn-play {
+    margin-top: auto;
+    background: linear-gradient(90deg, #ff9900, #ff5500);
+    color: #fff;
+    border: none;
+    padding: 16px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
+
+  .btn-cashout {
+    margin-top: auto;
+    background: linear-gradient(90deg, #00c853, #00e676);
+    color: #110624;
+    border: none;
+    padding: 16px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(0, 230, 118, 0.4);
+
+    &:hover {
+      filter: brightness(1.1);
+    }
+  }
+
+  
+
+
+
+
+}
+
+/* Сетка Мин */
+.grid-section {
+  flex: 1.5;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  width: 100%;
+
+  .mines-grid {
+    display: grid;
+    gap: 8px; /* Немного уменьшим отступ для больших сеток */
+    width: 100%;
+    max-width: 460px; /* Слегка увеличим максимальную ширину */
+
+    .mine-cell {
+      background: #1a0d33;
+      border: 1px solid #341e5e;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+      aspect-ratio: 1;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+
+      &:hover:not(.revealed) {
+        background: #28144d;
+        border-color: #ff9900;
+        transform: scale(1.03);
+      }
+
+      .cell-cover {
+        font-size: 16px;
+        color: #553c82;
+        font-weight: 700;
+      }
+
+      /* Выравниваем контейнер контента иконки */
+      .cell-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+      }
+
+      &.revealed {
+        cursor: default;
+        &.is-gem {
+          background: rgba(0, 230, 118, 0.1);
+          border-color: #00e676;
+        }
+        &.is-mine {
+          background: rgba(255, 23, 68, 0.15);
+          border-color: #ff1744;
+        }
+      }
+
+      .cell-icon {
+        width: 65%;
+        height: 65%;
+        object-fit: contain;
+        display: block;
+        margin: auto;
+      }
+    }
+  }
+}
+
+/* Анимации при открытии */
+.animate-pop {
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.animate-boom {
+  animation: boom 0.3s ease-in-out forwards;
+}
+
+@keyframes popIn {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes boom {
+  0% { transform: scale(0.5) rotate(-15deg); opacity: 0; }
+  50% { transform: scale(1.2) rotate(10deg); }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+
+/* Эффект для мин, показанных после успешного забирания денег */
+.mine-cell.revealed-on-win {
+  background: rgba(255, 153, 0, 0.12) !important;
+  border-color: rgba(255, 153, 0, 0.4) !important;
+
+  .cell-icon {
+    opacity: 0.65;
+    filter: grayscale(30%);
+  }
+}
+
+/* Мягкое появление мин при победе вместо взрыва */
+.animate-reveal-safe {
+  animation: safeReveal 0.4s ease-out forwards;
+}
+
+@keyframes safeReveal {
+  0% { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 0.65; }
+}

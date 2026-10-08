@@ -1,0 +1,55 @@
+<!--фон модалки при клике закрывает ее-->
+<div class="modal-backdrop" (click)="onClose()"> 
+    <div class="modal-card" (click)="$event.stopPropagation()">
+        <!--карточка модалки клики внутри не закрывают ее-->
+        <button class="btn-close" (click)="onClose()">✕</button>
+
+        <h2>Сколько заберете у Африки</h2>
+        <p class="modal-subtitle">Сколько ? Не мало </p>
+
+        <div class="error-alert" *ngIf="errorMessage">
+            {{ errorMessage }}
+        </div>
+
+        <!--отображение вібрнной суммі-->
+        <div class="amount-display">
+            <span class="currency">$</span>
+            <span class="value">{{ amount }}</span>
+        </div>
+        
+        <!--ползунок-->
+        <div class="slider-container">
+            <input
+                type="range"
+                [min]="minAmount"
+                [max]="maxAmount"
+                [step]="step"
+                [(ngModel)]="amount"
+                (ngModelChange)="onAmountChange($event)"
+                class="balance-slider"
+            />
+            <div class="slider-labels">
+                <span>${{ minAmount }}</span>
+                <span>${{ maxAmount }}</span>
+            </div>
+        </div>
+
+        <!--Быстрые кнопки пресеты-->
+        <div class="presets-grid">
+            <button
+                *ngFor="let preset of presets"
+                type="button"
+                class="preset-btn"
+                [class.active]="amount === preset"
+                (click)="setPreset(preset)"
+            >
+            +${{ preset }}
+            </button>
+        </div>
+        <!--кнопка пополнялка-->
+        <button class="btn-submit" (click)="onTopUp()" [disabled]="isLoading">
+            <span *ngIf="!isLoading">Пополнить бюджет Йeтти на ${{amount}}</span>
+            <span *ngIf="isLoading">Зачисляю...</span>
+        </button>
+    </div>
+</div>

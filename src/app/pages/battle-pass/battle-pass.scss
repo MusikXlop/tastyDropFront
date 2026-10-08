@@ -1,0 +1,288 @@
+
+
+.bp-page {
+  width: 100%;
+  min-height: calc(100vh - 80px);
+  padding: 20px 0;
+
+
+}
+
+
+.bp-container {
+    max-width: 1200px;   // главный контейнер страницы Battle Pass, ограничивает ширину
+    margin: 0 auto;      // центрирует по горизонтали
+    padding: 30px 20px;  // внутренние отступы
+}
+
+/* ==========================================
+   HEADER
+========================================== */
+.bp-header {
+    text-align: center;  // заголовок по центру
+    margin-bottom: 35px; // отступ снизу
+
+    h1 {
+        color: #ffffff;  // белый текст
+        font-size: 32px; // крупный размер
+        font-weight: 900;// жирный
+        letter-spacing: 2px; // расстояние между буквами
+        margin: 0 0 8px; // отступ снизу
+    }
+
+    p {
+        color: #8a8f99;  // серый подзаголовок
+        font-size: 14px; // размер шрифта
+        margin: 0;
+    }
+}
+
+/* ==========================================
+   SECTION TITLE
+========================================== */
+.section-title h3 {
+    color: #ffffff;      // белый заголовок секции
+    font-size: 20px;
+    margin: 0 0 20px;
+}
+
+/* ==========================================
+   LOADING / ERROR
+========================================== */
+.loading,
+.error-message,
+.empty-state {
+    text-align: center;  // центрируем текст
+    padding: 50px;       // большие отступы
+    font-size: 16px;
+    color: #8a8f99;      // серый цвет
+}
+.error-message {
+    color: #e74c3c;      // красный для ошибок
+}
+
+/* ==========================================
+   GRID
+========================================== */
+.rewards-grid {
+    display: grid;       // сетка для карточек
+    grid-template-columns: repeat(auto-fill, minmax(280px, 320px)); // адаптивные колонки
+    justify-content: center; // центрируем сетку
+    gap: 25px;           // расстояние между карточками
+}
+
+/* ==========================================
+   CARD
+========================================== */
+.reward-card {
+    background: linear-gradient(180deg, #17112f 0%, #100b24 100%); // фон карточки
+    border: 1px solid rgba(255, 255, 255, 0.08); // рамка
+    border-radius: 12px; // скругление углов
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+        transform: translateY(-4px); // лёгкий подъём
+        border-color: #6c5ce7;       // подсветка рамки
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); // тень
+    }
+
+    &.completed { border-color: rgba(46, 204, 113, 0.65); } // зелёная рамка для выполненного
+    &.claimed   { border-color: rgba(255, 255, 255, 0.08); } // серый для забранного
+
+    &.locked {
+        border-color: rgba(255, 255, 255, 0.05);
+
+        /* Немного приглушаем яркость всей карточки, кроме активных элементов */
+        .case-image {
+            filter: grayscale(0.5) brightness(0.6);
+        }
+
+        .level-tag {
+            background: linear-gradient(90deg, #3a3454, #2a2540);
+            color: #888;
+        }
+    }
+
+}
+
+/* ==========================================
+   LEVEL
+========================================== */
+.level-tag {
+    background: linear-gradient(90deg, #6c5ce7, #7d6df0); // фон бейджа уровня
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-align: center;
+    padding: 9px 12px;
+    border-radius: 7px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+/* ==========================================
+   CASE IMAGE
+========================================== */
+.case-image-wrapper {
+    width: 100%;
+    height: 190px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 9px;
+    background: radial-gradient(circle, #4a1b4d 0%, #24122f 45%, #110b21 100%); // фон под картинку
+    margin-bottom: 10px;
+    position: relative;
+}
+
+/* Замок поверх картинки */
+.lock-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 6, 20, 0.45); // Затемнение картинки
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    backdrop-filter: blur(1px); // Легкий блюр заднего фона
+
+    .lock-icon {
+        font-size: 32px;
+        filter: drop-shadow(0 0 10px rgba(0,0,0,0.8));
+        transition: transform 0.2s ease;
+    }
+}
+
+.reward-card:hover .lock-overlay .lock-icon {
+    transform: scale(1.15) rotate(-5deg); //  замочек при наведении
+}
+
+.case-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; // картинка вписывается
+    transition: transform 0.25s ease;
+}
+.reward-card:hover .case-image { transform: scale(1.05); } // увеличение при наведении
+
+/* ==========================================
+   QUEST
+========================================== */
+.quest-info { display: flex; flex-direction: column; }
+.quest-info h4 { color: #fff; font-size: 16px; font-weight: 800; margin: 0 0 5px; }
+.goal-type { color: #8a8f99; font-size: 11px; margin-bottom: 12px; }
+
+/* ==========================================
+   REWARD DESCRIPTION
+========================================== */
+.reward-description {
+    color: #d8d3ed;
+    font-size: 13px;
+    line-height: 1.4;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 7px;
+    margin-bottom: 14px;
+}
+
+/* ==========================================
+   PROGRESS
+========================================== */
+.progress-section { margin-bottom: 10px; }
+.progress-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 6px;
+    color: #aaa4c4; font-size: 12px; font-weight: 700;
+}
+.progress-bar {
+    width: 100%; height: 8px; background: #090713;
+    border-radius: 10px; overflow: hidden;
+}
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #6c5ce7, #a29bfe);
+    border-radius: 10px;
+    transition: width 0.35s ease;
+}
+
+/* ==========================================
+   STATUS
+========================================== */
+.quest-status { font-size: 12px; font-weight: 700; margin-bottom: 12px; }
+.completed-text { color: #2ecc71; } // зелёный текст для выполненного
+.not-completed-text { color: #e74c3c; } // красный текст для невыполненного
+
+/* ==========================================
+   REWARD
+========================================== */
+.reward-info {
+    background: rgba(0, 0, 0, 0.22);
+    border-radius: 8px;
+    padding: 11px;
+    margin-top: auto;
+    margin-bottom: 12px;
+}
+.reward-title { 
+    color: #777; 
+    font-size: 10px; 
+    font-weight: 800; 
+    letter-spacing: 1px; 
+    margin-bottom: 7px; 
+}
+.currency-reward {
+    display: flex;
+    align-items: center;
+    gap: 6px; color: #f1c40f;
+    font-size: 14px;
+    font-weight: 900; }
+.reward-icon { 
+    display: inline-flex;
+    align-items: center;
+    
+    .bp-coin-img {
+      width: 20px;   
+      height: 20px;  
+      object-fit: contain;
+    }
+}
+.reward-currency-name { color: #aaa4c4; font-size: 11px; font-weight: 600; }
+.case-reward { color: #a29bfe; font-size: 13px; font-weight: 800; }
+
+/* ==========================================
+   CLAIM BUTTON
+========================================== */
+.btn-claim {
+    width: 100%; padding: 12px; border: none; border-radius: 7px;
+    background: linear-gradient(90deg, #f1c40f, #f7d20b);
+    color: #111; font-size: 13px; font-weight: 900;
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease;
+
+    &:hover:not(:disabled) {
+        transform: translateY(-1px);
+        filter: brightness(1.08);
+    }
+    &:disabled {
+        background: #302d38; color: #777; cursor: not-allowed;
+    }
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+@media (max-width: 600px) {
+    .bp-container { padding: 20px 12px; }
+    .bp-header h1 { font-size: 25px; }
+    .rewards-grid { grid-template-columns: 1fr; }
+    .reward-card { max-width: 340px; width: 100%; margin: 0 auto; }
+}

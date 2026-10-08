@@ -1,0 +1,96 @@
+<div class="wheel-page">
+    <div class="wheel-container">
+
+        <!--левая панель настроек-->
+        <div class="control-panel">
+            <h2 class="game-title">DOTA WHEEL</h2>
+
+            <!--поле ввода ставки-->
+            <div class="input-group">
+                <label>Ставки на спорт в долларах</label>
+                <input
+                    type="number"
+                    [(ngModel)]="betAmount"
+                    (keydown)="preventInvalidBetChars($event)"
+                    (paste)="onPasteBet($event)"
+                    (input)="sanitizeBet($event)"
+                    [disabled]="isSpinning"
+                    min="0.1" step="0.5"/>
+            </div>
+
+            <!--выбор цвета-->
+            <div class="input-group">
+                <label>Выбери цвет</label>
+                <div class="color-selector">
+                    <button
+                        *ngFor="let opt of colorOptions"
+                        class="color-btn"
+                        [class.active]="selectedColor === opt.key"
+                        [style.border-color]="opt.colorHex"
+                        [disabled]="isSpinning"
+                        (click)="selectColor(opt.key)">
+                        <img [src]="opt.iconUrl" [alt]="opt.label" class="btn-icon" />
+                        <span class="btn-label">{{ opt.label }}</span>
+                    </button>
+                </div>
+            </div>
+
+            <!--ошибка-->
+            <div class="error-banner" *ngIf="errorMessage">
+                {{ errorMessage }}
+            </div>
+
+            <!--кнопка крутить-->
+            <button
+                class="btn-spin"
+                [disabled]="isSpinning"
+                (click)="spin()">
+                {{ isSpinning ? 'ВЕРТИМ...' : 'Вращайте бараБАН' }}
+            </button>
+
+            <!--результат прошлого спина-->
+            <div class="result-box" *ngIf="lastResult && !isSpinning">
+                <div *ngIf="lastResult.winAmount > 0" class="win-msg">
+                        ВЫИГРЫШ: +${{ lastResult.winAmount | number:'1.2-2' }} ({{ getColorLabel(lastResult.wonColor) }})
+                </div>
+                <div *ngIf="lastResult.winAmount === 0" class="lose-msg">
+                    ХАХАХА ДАЖЕ Я ЗНАЛ ЧТО ВЫПАДЕТ {{ getColorLabel(lastResult.wonColor) }}
+                </div>
+            </div>
+        </div>
+
+        <!--ПРАВАЯ ЧАСТЬ КОЛЕСО-->
+        <div class="wheel-section">
+            <div class="wheel-wrapper">
+
+                <!--указательная стрелка-->
+                <div class="wheel-pointer"></div>
+
+                <!--колесо крутится-->
+                <div
+                    class="wheel-disc"
+                    [style.transform]="'rotate(' + wheelRotation + 'deg)'">
+
+                    <div
+                        *ngFor="let seg of segments; let i = index"
+                        class="segment-slice"
+                        [style.transform]="'rotate(' + (i * 18) + 'deg)'">
+                        
+                        <!-- Треугольный луч к центру -->
+                        <div class="slice-background" [ngClass]="seg.toLowerCase()"></div>
+                        
+                        <!-- Контент внутри сектора -->
+                        <div class="slice-content">
+                            <img [src]="getSegmentIcon(seg)" [alt]="seg" class="segment-icon" />
+                        </div>
+                    </div>
+                </div>
+
+                <!--центральный колпачок-->
+                <div class="wheel-center-cap">
+                    <span>DOTA</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,178 @@
+
+<div class="bp-page">
+    <!--загрузка-->
+    <div class="loading" *ngIf="isLoading"> Загрузка уровней Battle Pass... </div>
+
+    <!--ошибка  если бек не ответил-->
+    <div class="error-message" *ngIf="!isLoading && errorMessage">
+        {{ errorMessage }}
+    </div>
+
+    <!--батлпасс-->
+    <div class="bp-container" *ngIf="!isLoading && !errorMessage && battlePass.length > 0">
+
+        <!--заголовок-->
+        <div class="bp-header">
+            <div> 
+                <h1>Brawl Pass</h1>
+            </div>
+        </div>
+
+        
+        <!--лвла баттл паса-->
+        <div class="section-title">
+            <h3>
+                Уровни Brawl Pass
+            </h3>
+
+        </div>
+
+        <div class="rewards-grid">
+            <!--перебираем все лвла  с бекенда-->
+            <div class="reward-card"
+                *ngFor="let level of battlePass; let i = index"
+                [ngClass]="{ 
+                    'completed': level.isCompleted, 
+                    'claimed': level.isRewardClaimed,
+                    'locked': i > 0 && !battlePass[i - 1]?.isCompleted }">
+
+
+                <!--лвла-->
+                <div class="level-tag">
+                    LEVEL {{level.levelNumber}}
+                </div>
+
+
+                <!--картинка кейса-->
+                <a [routerLink]="level.rewardCaseId ? ['/case', level.rewardCaseId] : null"
+                    class="case-image-wrapper"
+                    [style.cursor]="level.rewardCaseId ? 'pointer' : 'default'">
+
+                    <!--для не выполненнныйх-->
+                    <div class="lock-overlay" *ngIf="i > 0 && !battlePass[i - 1]?.isCompleted">
+                        <span class="lock-icon">🔒</span>
+                    </div>
+
+                    <img [src]="getRewardCase(level)?.imageUrl || 'assets/site/gold4.avif'"
+                        (error)="$event.target.src = 'assets/site/gold4.png'"
+                        [alt]="getRewardCase(level)?.name || 'Заглушка'"
+                        class="case-image">
+                </a>
+
+
+                <!--инфа чо над сделать-->
+                <div class="quest-info">
+                    <h4>
+                        {{level.questName}}
+                    </h4>
+
+                    <!--текст награды-->
+                    <div
+                        class="reward-description"
+
+                        *ngIf="level.rewardText"
+                    >
+
+                        {{ level.rewardText }}
+
+                    </div>
+
+                    <!--прогресс-->
+                    <div class="progress-section">
+                        <div class="progress-header">
+                            <span>
+                                Прогресс
+                            </span>
+
+                            <span>
+                                {{ getProgressText(level) }}
+                            </span>
+                        </div>
+                        
+                        <div class="progress-bar">
+
+                        <div 
+                            class="progress-fill"
+                            [style.width.%]="getProgressPercent(level)">
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+
+                <!--статус-->
+                <div class="quest-status">
+                    <span class="completed-text" *ngIf="level.isCompleted"> 
+                        Еще должен будешь 
+                    </span>
+
+
+                    <span class="not-completed-text"
+                            *ngIf="!level.isCompleted">
+                            ДАЙ ЕГО 
+
+                    </span>
+                </div>
+
+                </div>
+                <!--награда-->
+                <div class="reward-info">
+                    <h4>
+                        Награда
+                    </h4>
+
+                    <!--коины батл паса-->
+                    <div class="currency-reward" *ngIf="level.rewardCurrency !== null">
+                        <span class="reward-icon">
+                                <img src="assets/site/BattlePassBalance.png" alt="BP Coin" class="bp-coin-img">
+                            </span>
+                        <span>
+                                +{{level.rewardCurrency}} 
+                        </span>
+                        <span class="reward-currency-name">
+                                Battle Pass Balance
+                        </span>
+
+                    </div>
+
+                    <!--кейс-->
+                    <div class="case-reward" *ngIf="getRewardCase(level)">
+                            🎁
+                            {{ getRewardCase(level)?.name }}
+                    </div>
+                </div>
+                <!--кнопка  получить награду-->
+                <button class="btn-claim"
+                        [disabled]="(authService.currentUser() 
+                        && (level.isRewardClaimed 
+                        || !level.isCompleted)) 
+                        || isClaiming(level)"
+
+                        (click)="claimReward(level)">
+
+                        <!--запрос выполняется-->
+                    <span *ngIf="isClaiming(level)">
+                        Кидаю тебе....
+                    </span>
+
+                    <!--текст кнопки-->
+                    <span *ngIf="!isClaiming(level)">
+                        {{ getClaimButtonText(level) }}
+                    </span>
+
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!--если бек вернул пустой список-->
+    <div class="empty-state" *ngIf="!isLoading && !errorMessage && battlePass.length === 0">
+        Battle Pass ПУСТОЙ
+
+    </div>
+</div>
+

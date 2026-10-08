@@ -1,0 +1,95 @@
+<div class="crash-page">
+    <div class="crash-container">
+
+        <!--левая часть управлялка-->
+        <div class="control-panel">
+            <h2 class="game-title">КРАЩ</h2>
+
+
+            <!--выбор суммы ставки-->
+            <div class="input-group">
+                <label>Скок ставиш </label>
+                <input 
+                type="number"             
+                [(ngModel)]="betAmount"         
+                (keydown)="preventInvalidBetChars($event)" 
+                (paste)="onPasteBet($event)"             
+                (input)="sanitizeBet($event)"             
+                [disabled]="isPlaying"                 
+                min="0.1"                                 
+                step="0.5" />          
+            </div>
+
+
+
+
+            <!--ош бки-->
+            <div class="error-banner" *ngIf="errorMessage && !isPlaying">
+                {{ errorMessage }}
+            </div>
+
+            <!--кнопка летс гоу-->
+            <button
+                *ngIf="!isPlaying"
+                class="btn-play"
+                (click)="startGame()">
+                Пог+нали
+            </button>
+
+            <!--когда гейм старт-->
+            <button
+                *ngIf="isPlaying"
+                class="btn-cashout"
+                (click)="cashOut()">
+                ПРЯМ ЩА БЕРИ {{ currentWin | number:'1.2-2' }}$ ({{ currentMultiplier }}x)
+            </button>
+        </div>
+
+        <!--canvas с кривой и счетчико-->
+        <div class="display-section">
+            <div class="canvas-wrapper">
+                <!-- блок с отображением множителя -->
+                 <!--класс crashed если луз и класс won если вин-->
+                <div class="multiplier-overlay"
+                    [class.crashed]="isGameOver && !isWin" 
+                    [class.won]="isWin">
+
+
+                    <!--  Если ИГРА ИДЕТ ИЛИ юзеееер ВЫИГРАЛ НО РАУНД ЕЩЕ НЕ КРАШНУЛСЯ -->
+                    <ng-container *ngIf="!isGameOver && !isWin">
+                        <!--текущий множдитель-->
+                        <span class="val"> {{ currentMultiplier | number:'1.2-2' }}x</span>
+                    </ng-container>
+                    
+                    <!--сооб от краша-->
+                    <ng-container *ngIf="isGameOver && !isWin">
+                        <span class="val crash-text">АЙ КАРАМБА крашнуло на  {{ currentMultiplier | number:'1.2-2' }}x</span>
+                    </ng-container>
+
+                    <!--сооб от вина-->
+                    <ng-container *ngIf="isWin">
+                        
+                        <!-- Выше выигрыша пока раунд идет  растет икс когда крашнуло  пишем краш -->
+                        <span class="val" *ngIf="!isGameOver">{{ currentMultiplier | number:'1.2-2' }}x</span>
+                        <span class="val crash-text" *ngIf="isGameOver">АЙ КАРАМБА крашнуло на {{ currentMultiplier | number:'1.2-2' }}x</span>
+
+                        <!-- показываем выигрыш -->
+                        <span class="val win-text">+{{ winAmount | number:'1.2-2' }}$$</span>
+                        <!--множитель на котором забрал-->
+                        <span class="sub-text">Вау ты забрал на {{ cashoutMultiplier | number:'1.2-2' }}x КВАСАВА</span>
+                    </ng-container>
+
+                </div>
+
+
+                <canvas #crashCanvas></canvas><!-- сам Canvas для графики -->
+
+                
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

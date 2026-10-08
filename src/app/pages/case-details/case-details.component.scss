@@ -1,0 +1,660 @@
+.case-details-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+/* Шапка кейса */
+.case-header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+
+  .case-badge {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(26, 22, 48, 0.7);
+    padding: 12px 25px;
+    border-radius: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    .case-icon {
+      width: 70px;
+      height: 70px;
+      object-fit: contain;
+    }
+
+    h2 {
+      color: #fff;
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .price-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: #f1c40f;
+      font-weight: bold;
+      font-size: 15px;
+
+      .bp-icon {
+        width: 18px;
+        height: 18px;
+        object-fit: contain;
+      }
+    }
+  }
+}
+
+  /* Контейнер для нескольких рулеток */
+  .roulette-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 35px;
+  }
+
+/* Зона рулетки */
+.roulette-wrapper {
+  position: relative;
+  width: 100%;
+  height: 170px;
+  background: #0f0c20;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8);
+
+  /* Центральный указатель (линия + стрелочки сверху и снизу) */
+  .roulette-pointer {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 100%;
+    background: #f1c40f;
+    box-shadow: 0 0 15px #f1c40f, 0 0 30px #f1c40f;
+    z-index: 10;
+
+    &::before, &::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+    }
+
+    &::before {
+      top: 0;
+      border-top: 10px solid #f1c40f;
+    }
+
+    &::after {
+      bottom: 0;
+      border-bottom: 10px solid #f1c40f;
+    }
+  }
+
+  /* Лента рулетки */
+  .roulette-track {
+    display: flex;
+    gap: 12px;
+    padding: 0 20px;
+    align-items: center;
+    will-change: transform; /* Добавлено для ускорения браузера и плавного спина */
+  
+    &.idle-scrolling {
+      animation: continuousScroll 150s linear infinite;
+    }
+  }
+
+   
+
+  /* Карточка предмета в рулетке */
+  .roulette-item {
+    min-width: 130px;
+    width: 130px;
+    height: 145px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 6px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+
+    img {
+      width: 100%;
+      height: 95px;
+      object-fit: contain;
+      filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.75));
+    }
+
+    .item-name {
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 600;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
+      z-index: 2;
+      background: rgba(0, 0, 0, 0.65);
+      padding: 3px 2px;
+      border-radius: 4px;
+    }
+   
+  }
+}
+
+/* Кнопки */
+.actions-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 45px;
+
+  .btn-open {
+    background: linear-gradient(180deg, #f39c12 0%, #d35400 100%);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 800;
+    padding: 20px 45px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(243, 156, 18, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+
+  .bp-btn-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    vertical-align: middle;   // по центру строки
+    }
+
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(243, 156, 18, 0.6);
+    }
+
+    
+  }
+
+
+  @keyframes freePulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.04);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  .insufficient-balance-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+
+    .balance-error {
+      background: rgba(0, 0, 0, 0.4);
+      color: #e74c3c;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 15px;
+      border: 1px solid rgba(231, 76, 60, 0.3);
+    }
+
+    .bp-icon-inline {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    } 
+
+    .btn-add-funds {
+      background: #f1c40f;
+      color: #111;
+      font-weight: bold;
+      font-size: 16px;
+      padding: 14px 40px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.2s;
+
+      &:hover {
+        background: #f39c12;
+      }
+    }
+  }
+}
+
+/* Раздел предметов (Case Contents) */
+.contents-section {
+  .contents-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 25px;
+
+    h3 {
+      color: #fff;
+      font-size: 18px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 0 20px;
+      margin: 0;
+    }
+
+    .line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    }
+  }
+
+  .items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+  }
+
+  .item-card {
+    position: relative;
+    height: 160px;
+    border-radius: 10px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+
+      .item-image-wrapper img {
+        transform: scale(1.12);
+      }
+    }
+
+    .item-price {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      background: rgba(0, 0, 0, 0.65);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 7px;
+      border-radius: 4px;
+      z-index: 3;
+      backdrop-filter: blur(4px);
+    }
+
+    .item-image-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px 10px 30px 10px;
+      z-index: 1;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.75));
+        transition: transform 0.3s ease;
+      }
+    }
+
+    .item-name {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.95) 100%);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 600;
+      text-align: center;
+      padding: 10px 5px 6px 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      z-index: 3;
+    }
+  }
+}
+
+/* Градиенты подсветок редких предметов */
+/* Градиенты подсветок редких предметов */
+.rarity-arcana {
+  border-bottom: 3px solid rgb(173, 229, 92) !important;
+  background: radial-gradient(circle at 50% 40%, rgba(173, 229, 92, 0.45) 0%, rgba(20, 16, 41, 0.95) 85%), #141029 !important;
+}
+
+.rarity-immortal {
+  border-bottom: 3px solid rgb(228, 174, 57) !important;
+  background: radial-gradient(circle at 50% 40%, rgba(228, 174, 57, 0.45) 0%, rgba(20, 16, 41, 0.95) 85%), #141029 !important;
+}
+
+.rarity-legendary {
+  border-bottom: 3px solid rgb(211, 44, 230) !important;
+  background: radial-gradient(circle at 50% 40%, rgba(211, 44, 230, 0.45) 0%, rgba(20, 16, 41, 0.95) 85%), #141029 !important;
+}
+
+.rarity-mythical {
+  border-bottom: 3px solid rgb(136, 71, 255) !important;
+  background: radial-gradient(circle at 50% 40%, rgba(136, 71, 255, 0.45) 0%, rgba(20, 16, 41, 0.95) 85%), #141029 !important;
+}
+
+.rarity-rare {
+  border-bottom: 3px solid rgb(75, 105, 255) !important;
+  background: radial-gradient(circle at 50% 40%, rgba(75, 105, 255, 0.45) 0%, rgba(20, 16, 41, 0.95) 85%), #141029 !important;
+}
+
+.rarity-common {
+  border-bottom: 3px solid #95a5a6 !important;
+  background: radial-gradient(circle at 50% 40%, rgba(149, 165, 166, 0.25) 0%, rgba(20, 16, 41, 0.95) 85%), #141029 !important;
+}
+
+
+
+/* ====================================
+   ПОЛНОЭКРАННОЕ ОКНО ВЫИГРЫША (TASTYDROP)
+   ==================================== */
+.win-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(8, 5, 19, 0.88);
+  backdrop-filter: blur(10px); /* Красивое размытие фона */
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease-out;
+
+  /* Сетка предметов в модальном окне победы */
+  .win-modal-content {
+    max-width: 800px !important; /* Увеличиваем ширину под мультикаст*/
+    
+
+    .win-grid{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      max-height: 50vh;
+      overflow-y: auto;
+      padding: 10px;
+      margin-bottom: 20px;
+      width: 100%;
+    }
+
+    .win-title {
+      color: #ffffff;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      margin-bottom: 25px;
+      text-transform: uppercase;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    }
+
+   /* Карточка с картинкой шмотки в модальном окне выигрыша */
+  .win-card {
+    width: 180px;
+    height: 160px;
+    border-radius: 10px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column; /* Изменено с row на column */
+    align-items: center;
+    justify-content: center; /* Центрируем контент */
+    position: relative;
+    overflow: hidden; /* Обрезаем выходящие за края элементы */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+
+    .win-image-wrapper {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%); /* Помещает блок ровно по центру плашки */
+      width: 85%;
+      height: 75%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+
+      img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain; /* Меняем cover на contain, чтобы предмет не обрезался */
+        filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.75));
+        transition: transform 0.3s ease;
+      }
+    }
+
+    .win-card-name {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      text-align: center;
+      padding: 6px 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      z-index: 2;
+    }
+
+    .win-card-price {
+      position: absolute;
+      top: 6px;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #f1c40f;
+      font-size: 12px;
+      font-weight: 800;
+      z-index: 2;
+      text-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
+    }
+  }
+
+    /* Информация об авторе/предмете */
+    .win-info {
+      margin-bottom: 25px;
+
+      .win-item-name {
+        color: #7b83b3;
+        font-size: 16px;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+
+      .price-badge {
+        background: rgba(20, 16, 41, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 8px 18px;
+        border-radius: 6px;
+        display: inline-flex;
+        gap: 10px;
+        font-size: 14px;
+
+        span {
+          color: #d1ceeb;
+          font-weight: 600;
+        }
+
+        strong {
+          color: #f1c40f;
+        }
+      }
+    }
+
+    /* Кнопки */
+    .win-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+
+      .btn-sell {
+        background: #f1c40f;
+        color: #111;
+        font-size: 16px;
+        font-weight: 800;
+        padding: 16px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: transform 0.15s, background 0.15s;
+        box-shadow: 0 4px 15px rgba(241, 196, 15, 0.3);
+
+        &:hover {
+          background: #f39c12;
+          transform: translateY(-2px);
+        }
+      }
+
+      .btn-keep {
+        background: #6c5ce7;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 700;
+        padding: 16px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: transform 0.15s, background 0.15s;
+
+        &:hover {
+          background: #5b4bc4;
+          transform: translateY(-2px);
+        }
+      }
+    }
+
+    .win-note {
+      margin-top: 20px;
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 13px;
+    }
+  }
+}
+
+/* Анимация появления модалки */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.case-open-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.multiplier-selector {
+  display: flex;
+  gap: 8px;
+  background: rgba(15, 12, 32, 0.8);
+  padding: 6px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.multiplier-btn {
+  background: transparent;
+  color: #8a8f99;
+  border: none;
+  padding: 8px 16px;
+  font-weight: 800;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.multiplier-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.multiplier-btn.active {
+  background: #007bff; /* Или цвет твоей темы */
+  color: #fff;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+
+.open-case-btn {
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #28a745, #218838);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+  transition: transform 0.1s ease;
+}
+
+.open-case-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+//для анимации
+@keyframes continuousScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    /* Сдвигаем ленту влево на всю длину первого повторяющегося блока предметов */
+    transform: translateX(var(--idle-distance, -22720px));
+  }
+}

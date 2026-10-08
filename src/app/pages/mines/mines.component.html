@@ -1,0 +1,128 @@
+
+
+
+<div class="mines-page">
+    <div class="mines-container">
+        <!--левая часть панель настроек-->
+        <div class="control-panel">
+            <h2 class="game-title">MINES</h2>
+
+
+            <!--выбор суммы ставки-->
+            <div class="input-group">
+                <label>Ставь свою душу (желательно в тугриках)</label>
+                <input 
+                    type="number"
+                    [(ngModel)]="betAmount" 
+                    (keydown)="preventInvalidBetChars($event)"
+                    (paste)="onPasteBet($event)"
+                    (input)="sanitizeBet($event)"
+                    [disabled]="isPlaying"
+                    min="0.1" 
+                    step="0.5" />
+            </div>
+
+            <!--выбор роащмера поля-->
+            <div class="input-group">
+                <label>Размер поля</label>
+                <div class="size-selector">
+                    <button 
+                        *ngFor="let size of availableSizes" 
+                        [class.active]="gridSize === size"
+                        [disabled]="isPlaying"
+                        (click)="selectSize(size)">
+                        {{size}}x{{size}}
+                    </button>
+                </div>
+            </div>
+
+            <!--выбор колва мин-->
+            <div class="input-group">
+                <label>Количество мин: (Максимум даю тебе {{maxMines}})</label>
+                <input 
+                    type="number" 
+                    [(ngModel)]="minesCount"
+                    (keydown)="preventInvalidMinesChars($event)"
+                    (paste)="onPasteMines($event)"
+                    (input)="sanitizeMines($event)"
+                    [disabled]="isPlaying"
+                    min="1" 
+                    step="1"
+                    [max]="maxMines" />
+            </div>
+
+            
+            <!--ошибочка если мин много-->
+            <div class="error-banner" *ngIf="errorMessage && !isPlaying">
+                {{ errorMessage }}
+            </div>
+            
+
+            <!-- Кнопки действия -->
+            <button 
+                *ngIf="!isPlaying" 
+                class="btn-play" 
+                (click)="startGame()">
+                    ВЕТС ГОУ 
+            </button>
+
+            <button *ngIf="isPlaying" class="btn-cashout" (click)="cashOut()">
+                Забрать у Африки ${{ currentWin | number:'1.2-2' }} ({{ currentMultiplier }}x)
+
+            </button>
+
+        </div>
+
+        <!--сетка и статус (ПРАВА)-->
+        <div class="grid-section">
+            <div class="status-bar" *ngIf="isPlaying || isGameOver">
+                <div class="multiplier-badge">
+                    <span>Сколько кваритр ты теряешь: </span>
+                    <strong>{{ currentMultiplier }}x</strong>
+                </div>
+                <div class="win-badge">
+                    <span>Сколько ты мне задолжал: </span>
+                    <strong class="green-text">${{ currentWin | number:'1.2-2' }}</strong>
+                </div>
+            </div>
+
+            <!--поле-->
+            <div 
+                class="mines-grid"
+                [style.grid-template-columns]=" 'repeat(' + gridSize +', 1fr)' ">
+
+                <div
+                    *ngFor="let cell of cells" 
+                    class="mine-cell"
+                    [class.revealed]="cell.isRevealed"
+                    [class.is-mine]="cell.isRevealed && cell.isMine"
+                    [class.is-gem]="cell.isRevealed && !cell.isMine"
+                    [class.revealed-on-win]="isWin && cell.isMine"
+                    (click)="onCellClick(cell)">
+
+                    <!--закрітая клетка-->
+                    <div class="cell-cover" *ngIf="!cell.isRevealed">?</div>
+
+                    <!--открытая клетка с вином-->
+                    <div class="cell-content" *ngIf="cell.isRevealed && !cell.isMine" >
+                        <img [src]="winImg" alt="GEm", class="cell-icon animate-pop" />
+                    </div>
+
+                    <!-- Открытая клетка с миной -->
+                    <div class="cell-content" *ngIf="cell.isRevealed && cell.isMine">
+                        <img 
+                        [src]="minaImg" 
+                        alt="Mine" 
+                        class="cell-icon" 
+                        [ngClass]="isWin ? 'animate-reveal-safe' : 'animate-boom'" />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>

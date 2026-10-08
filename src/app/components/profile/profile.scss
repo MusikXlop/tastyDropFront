@@ -1,0 +1,378 @@
+.profile-container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+
+  .profile-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: #140f2b;
+    padding: 24px;
+    border-radius: 16px;
+    border: 1px solid #231b46;
+    margin-bottom: 30px;
+
+
+        /* Внешняя обертка, удерживающая иконку и текст строго по центру */
+    .bp-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px; /* Отступ между плашкой и текстом */
+      margin: 0 auto; /* Держит всю конструкцию ровно посередине */
+      
+
+      .bp-badge-container {
+        position: relative;
+        width: 110px;
+        height: 110px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+
+      .bp-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        object-fit: contain;
+      }
+
+      .bp-icon {
+        position: absolute;
+        top: 10%;
+        left: 10%;
+        width: 80%;
+        height: 80%;
+        z-index: 2;
+        object-fit: contain;
+      }
+
+      /* Слой 3: Картинка плашки (управляйте размером и высотой отдельно) */
+      .bp-num-bg {
+        position: absolute;
+        bottom: 0px; /* Регулирует высоту плашки (поднимает/опускает) */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;  /* Ширина самой плашки */
+        height: auto;  /* Сохраняет оригинальные пропорции PNG/AVIF */
+        z-index: 3;
+        pointer-events: none;
+      }
+
+      /* Слой 4: Цифра (управляйте позицией текста точно поверх плашки) */
+      .bp-level-text {
+        position: absolute;
+        bottom: 2px;  /* Регулирует высоту самой цифры относительно низа */
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 4;
+        font-weight: 900;
+        font-size: 18px;
+        color: #ffffff;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9), 0 0 5px rgba(0, 0, 0, 0.7);
+        line-height: 1;
+      }
+    }
+      /* Текст подписи  */
+    .bp-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: #e6e4e1; /* Золотистый цвет в стиль карточки дропа */
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 0 0 8px rgba(255, 170, 0, 0.3);
+    }
+  }
+
+
+
+
+
+          
+    .avatar-box {
+      width: 70px;
+      height: 70px;
+      background: #201844;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ff9900;
+      border: 2px solid #322668;
+    }
+
+    .user-details {
+      h1 {
+        font-size: 24px;
+        margin-bottom: 4px;
+      }
+      .user-status {
+        color: #7b74ab;
+        font-size: 14px;
+      }
+    }
+
+
+
+    .best-drop-card {
+      background: linear-gradient(
+      135deg,
+      rgba(168, 85, 247, 0.15),
+      rgba(76, 29, 149, 0.4)
+      );      
+      border: 1px solid rgba(168, 85, 247, 0.45);
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.25);
+      border-radius: 12px;
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      min-width: 170px;
+
+
+
+      .best-drop-badge {
+        font-size: 11px;
+        font-weight: bold;
+        color: #c084fc;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      /* Контейнер с позиционированием под картинку и оверлеи */
+      .best-drop-media {
+        position: relative;
+        width: 140px;
+        height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        background: rgba(15, 10, 30, 0.4);
+        overflow: hidden;
+
+        img {
+          width: 100px;
+          height: 100px;
+          object-fit: contain;
+          filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6));
+        }
+
+        /* Цена СВЕРХУ картинки */
+        .best-drop-price {
+          position: absolute;
+          top: 6px;
+          right: 6px;
+          font-size: 12px;
+          font-weight: bold;
+          color: #fff;
+          background: linear-gradient(135deg,#7c3aed,#a855f7);
+          padding: 2px 6px;
+          border-radius: 4px;
+          backdrop-filter: blur(4px);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Название СНИЗУ картинки */
+        .best-drop-name {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          font-size: 11px;
+          font-weight: 600;
+          color: #fff;
+          text-align: center;
+          padding: 4px 6px;
+          background: linear-gradient(to top, rgba(10, 7, 22, 0.95), rgba(10, 7, 22, 0));
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+
+  
+
+  .inventory-section {
+    background: #140f2b;
+    padding: 24px;
+    border-radius: 16px;
+    border: 1px solid #231b46;
+
+    h2 {
+      font-size: 20px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #231b46;
+      padding-bottom: 12px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #7b74ab;
+      font-size: 16px;
+    }
+
+    .empty-inventory {
+      text-align: center;
+      padding: 60px 20px;
+
+      .empty-icon {
+        font-size: 48px;
+        margin-bottom: 12px;
+      }
+
+      h3 {
+        color: #d1ceeb;
+        margin-bottom: 8px;
+        font-size: 18px;
+      }
+
+      p {
+        color: #7b74ab;
+        font-size: 14px;
+      }
+    }
+
+    /* 👈 Перенесли .items-grid внутрь .inventory-section и исправили Img/Button на маленькие буквы */
+    .items-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+
+      .item-card {
+        background: #1a1438;
+        border: 1px solid #2b2258;
+        border-radius: 12px;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+
+        img { 
+          width: 100px;
+          height: 100px;
+          object-fit: contain;
+          margin-bottom: 8px;
+        }
+
+        .item-name {
+          font-weight: bold;
+          font-size: 14px;
+          margin-bottom: 4px;
+          color: #fff;
+        }
+
+        .item-price {
+          color: #c084fc;
+          font-size: 14px;
+          margin-bottom: 12px;
+        }
+
+        .item-actions {
+          display: flex;
+          gap: 8px;
+          width: 100%;
+
+          button { 
+            flex: 1;
+            padding: 6px 0;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            transition: background 0.2s;
+          }
+
+          .btn-sell {
+            background: linear-gradient(135deg, #7c3aed, #9333ea);
+            color: #fff;
+          
+
+            &:hover {
+              background: linear-gradient(135deg, #8b5cf6, #a855f7);
+            }
+          }
+
+          .btn-withdraw {
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            color: #fff;
+             
+            &:hover {
+            background: linear-gradient(135deg, #6366f1, #818cf8);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+/* Всплывающие уведомления (Toasts) справа снизу */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+
+  .toast {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    background: #1a1438;
+    color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    font-size: 14px;
+    font-weight: 500;
+    min-width: 280px;
+    max-width: 360px;
+    border: 1px solid #2b2258;
+    animation: toastIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+
+    &.success {
+      border-left: 4px solid #28a745;
+    }
+
+    &.error {
+      border-left: 4px solid #dc3545;
+    }
+
+    .toast-icon {
+      font-size: 16px;
+    }
+
+    .toast-message {
+      line-height: 1.4;
+    }
+  }
+}
+
+/* Анимация плавного вылета снизу-справа */
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

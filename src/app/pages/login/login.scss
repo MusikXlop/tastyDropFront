@@ -1,0 +1,182 @@
+.auth-container {
+  display: flex;                  /* Использование flexbox для выравнивания */
+  justify-content: center;        /* Центрирование карточки по горизонтали */
+  align-items: center;            /* Центрирование карточки по вертикали */
+  min-height: calc(100vh - 120px);/* Высота области на весь экран минус шапка (120px) */
+  padding: 20px;                  /* Отступы от краев экрана на мобильных устройствах */
+
+  .auth-card {
+    background: #140a26;          /* Темно-фиолетовый фон плашки в общем стиле сайта */
+    border: 1px solid #2b3040;    /* Тонкая рамка цвета элементов интерфейса */
+    border-radius: 16px;          /* Скругление углов карточки */
+    padding: 32px;                /* Внутренние отступы контента от краев плашки */
+    width: 100%;                  /* Занимает всю доступную ширину... */
+    max-width: 420px;             /* ...но не более 420px */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Тень для эффекта приподнятости */
+
+    h2 {
+      font-size: 24px;
+      font-weight: bold;
+      color: #ffffff;             /* Белый цвет заголовка */
+      margin-bottom: 6px;
+      text-align: center;
+    }
+
+    .auth-subtitle {
+      font-size: 14px;
+      color: #8b94a7;             /* Приглушенный серо-голубой цвет подзаголовка */
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .success-alert {
+      background: rgba(46, 213, 115, 0.15); /* Полупрозрачный зеленый фон */
+      border: 1px solid #2ed573;            /* Зеленая рамка */
+      color: #2ed573;                       /* Зеленый цвет текста */
+      padding: 10px 14px;                   /* Внутренние отступы */
+      border-radius: 8px;                   /* Скругление углов */
+      font-size: 14px;                      /* Размер шрифта */
+      margin-bottom: 18px;                  /* Отступ снизу до формы */
+      text-align: center;                   /* Выравнивание текста по центру */
+    }
+
+    .error-alert {
+      background: rgba(255, 85, 85, 0.15); /* Полупрозрачный красный фон */
+      border: 1px solid #ff5555;            /* Красная рамка */
+      color: #ff5555;                       /* Красный цвет текста */
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 14px;
+      margin-bottom: 18px;
+      text-align: center;
+
+      .confirmation-actions {
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px dashed rgba(255, 85, 85, 0.4);
+
+        .btn-confirm-now {
+          background: #2b3040;
+          color: #ff9900;
+          border: 1px solid #ff9900;
+          padding: 8px 14px;
+          border-radius: 6px;
+          font-size: 13px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s ease;
+
+          &:hover {
+            background: #ff9900;
+            color: #140a26;
+          }
+        }
+      }
+    }
+
+    .form-group {
+      margin-bottom: 18px;        /* Расстояние между полями ввода */
+
+      label {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: #e2e8f0;           /* Светлый цвет подписи поля */
+        margin-bottom: 6px;
+      }
+
+      /*
+        ИЗМЕНЕНИЯ ЗДЕСЬ:
+        Стиль для ссылки "Забыли пароль?", расположенной ПОД полем ввода.
+      */
+      .forgot-link-under {
+        display: block;           /* Делаем блочным, чтобы перенести на новую строку */
+        margin-top: 6px;          /* Отступ сверху от инпута */
+        text-align: right;        /* Выравнивание по правому краю поля ввода */
+        font-size: 12px;
+        color: #ff9900;           /* Акцентный оранжевый цвет */
+        cursor: pointer;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline; /* Подчеркивание при наведении */
+        }
+      }
+
+      input {
+        width: 100%;
+        padding: 12px 14px;
+        background: #1e222d;       /* Темный фон полей ввода */
+        border: 1px solid #2b3040; /* Граница поля */
+        border-radius: 8px;
+        color: #ffffff;            /* Вводимый текст белого цвета */
+        font-size: 14px;
+        box-sizing: border-box;    /* Включает padding в общую ширину */
+        outline: none;             /* Убираем стандартную синюю обводку браузера */
+        transition: border-color 0.2s; /* Плавное изменение цвета рамки */
+
+        &:focus {
+          border-color: #ff9900;   /* Оранжевая рамка при клике на поле */
+        }
+
+        &::placeholder {
+          color: #586175;          /* Цвет текста-подсказки (placeholder) */
+        }
+      }
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(90deg, #9333EA, #EC4899); /* Фиолетово-розовый градиент */
+      border: none;
+      border-radius: 8px;
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: opacity 0.2s;
+
+      &:hover {
+        opacity: 0.9;             /* Легкая прозрачность при наведении */
+      }
+
+      &:disabled {
+        opacity: 0.6;             /* Полупрозрачность, если кнопка заблокирована */
+        cursor: not-allowed;      /* Курсор "запрещено" */
+      }
+    }
+
+    .auth-footer {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #8b94a7;
+
+      a {
+        color: #ff9900;           /* Акцентный оранжевый цвет ссылки */
+        text-decoration: none;
+        font-weight: 600;
+
+        &:hover {
+          text-decoration: underline; /* Подчеркивание при наведении */
+        }
+      }
+
+      .back-link {
+        color: #8b94a7;
+        cursor: pointer;
+        font-size: 14px;
+        text-decoration: none;
+
+        &:hover {
+          color: #ffffff;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

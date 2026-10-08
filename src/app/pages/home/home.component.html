@@ -1,0 +1,391 @@
+<div class="cases-container">
+
+  <!-- Покажем плашку загрузки, если массив еще пустой -->
+  <div *ngIf="cases.length === 0" style="color: #fff; text-align: center; padding: 20px;">
+    Загрузка кейсов....
+  </div>
+
+  <ng-container *ngIf="cases.length > 0"> 
+
+    <!-- строка 7 с кейсами -->
+    <section class="cases-section">
+      <div class="section-header">
+        <span class="line"></span>
+        <h2 class="section-title">Cases</h2>
+        <span class="line"></span>
+      </div>
+
+      <div class="cases-grid">
+        <div 
+          class="case-card" 
+          *ngFor="let c of getCasesByIds([37,38,39,40,41])" 
+          [ngClass]="{ 'is-free': isFree(c.caseId) }"
+          [routerLink]="['/case', c.caseId]">
+          
+          <div class="free-badge" *ngIf="isFree(c.caseId)">ФРИШКА</div>
+
+          <div class="image-wrapper">
+            <img 
+              [src]="c.imageUrl" 
+              [alt]="c.name" 
+              class="case-image"
+              (error)="onImgError($event)">
+          </div>
+
+          <div class="case-price">
+            <ng-container *ngIf="isFree(c.caseId); else standardPrice">
+              <span class="free-text">ПРОСТО БЕРИ</span>
+            </ng-container>
+
+            <ng-template #standardPrice>
+              <span class="price-value">{{ c?.price ? c.price.toFixed(2) : '0.00' }}</span>
+              <span class="currency-icon">$</span>
+            </ng-template>
+          </div>
+
+          <h3 class="case-name">{{ c.name }}</h3>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Секция 1: battlepassCases -->
+    <section class="cases-section">
+      <div class="section-header">
+        <span class="line"></span>
+        <h2 class="section-title">Battle Pass Cases</h2>
+        <span class="line"></span>
+      </div>
+
+      <div class="cases-grid">
+        <div 
+          class="case-card" 
+          *ngFor="let c of getCasesByIds([42, 43,44,45,46])" 
+          [ngClass]="{ 'is-free': isFree(c.caseId) }"
+          [routerLink]="['/case', c.caseId]">
+          
+          <div class="free-badge" *ngIf="isFree(c.caseId)">ФРИШКА</div>
+
+          <div class="image-wrapper">
+            <img 
+              [src]="c.imageUrl" 
+              [alt]="c.name" 
+              class="case-image"
+              (error)="onImgError($event)">
+          </div>
+
+          <div class="case-price">
+            <ng-container *ngIf="isFree(c.caseId); else standardPrice">
+              <span class="free-text">ПРОСТО БЕРИ</span>
+            </ng-container>
+
+            <ng-template #standardPrice>
+              <span class="price-value">{{ c?.price ? c.price.toFixed(2) : '0.00' }}</span>
+              <img *ngIf="c.currency === 'BP'" src="assets/site/BattlePassBalance.png" alt="BP" class="bp-icon">
+              <span *ngIf="c.currency !== 'BP'" class="currency-icon">$</span>
+            </ng-template>
+          </div>
+
+          <h3 class="case-name">{{ c.name }}</h3>
+
+        </div>
+      </div>
+    </section> 
+
+    <!-- Секция 1: COMBO CASES -->
+    <section class="cases-section">
+      <div class="section-header">
+        <span class="line"></span>
+        <h2 class="section-title">COMBO CASES</h2>
+        <span class="line"></span>
+      </div>
+
+      <div class="cases-grid">
+        <div 
+          class="case-card" 
+          *ngFor="let c of getCasesByIds([1, 2, 3, 4, 5, 7])" 
+          [ngClass]="{ 'is-free': isFree(c.caseId) }"
+          [routerLink]="['/case', c.caseId]">
+          
+          <div class="free-badge" *ngIf="isFree(c.caseId)">ФРИШКА</div>
+
+          <div class="image-wrapper">
+            <img 
+              [src]="c.imageUrl" 
+              [alt]="c.name" 
+              class="case-image"
+              (error)="onImgError($event)">
+          </div>
+
+          <div class="case-price">
+            <ng-container *ngIf="isFree(c.caseId); else standardPrice">
+              <span class="free-text">ПРОСТО БЕРИ</span>
+            </ng-container>
+
+            <ng-template #standardPrice>
+              <span class="price-value">{{ c?.price ? c.price.toFixed(2) : '0.00' }}</span>
+              <span class="currency-icon">$</span>
+            </ng-template>
+          </div>
+
+          <h3 class="case-name">{{ c.name }}</h3>
+
+        </div>
+      </div>
+    </section> 
+
+    <!-- строка 2 с кейсами -->
+    <section class="cases-section">
+      <div class="section-header">
+        <span class="line"></span>
+        <h2 class="section-title">By Rank</h2>
+        <span class="line"></span>
+      </div>
+
+      <div class="cases-grid">
+        <div 
+          class="case-card" 
+          *ngFor="let c of getCasesByIds([8,9,10,11,12])" 
+          [ngClass]="{ 'is-free': isFree(c.caseId) }"
+          [routerLink]="['/case', c.caseId]">
+          
+          <div class="free-badge" *ngIf="isFree(c.caseId)">ФРИШКА</div>
+
+          <div class="image-wrapper">
+            <img 
+              [src]="c.imageUrl" 
+              [alt]="c.name" 
+              class="case-image"
+              (error)="onImgError($event)">
+          </div>
+
+          <div class="case-price">
+            <ng-container *ngIf="isFree(c.caseId); else standardPrice">
+              <span class="free-text">ПРОСТО БЕРИ</span>
+            </ng-container>
+
+            <ng-template #standardPrice>
+              <span class="price-value">{{ c?.price ? c.price.toFixed(2) : '0.00' }}</span>
+              <span class="currency-icon">$</span>
+            </ng-template>
+          </div>
+
+          <h3 class="case-name">{{ c.name }}</h3>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- строка 4 с кейсами -->
+    <section class="cases-section">
+      <div class="section-header">
+        <span class="line"></span>
+        <h2 class="section-title">Farm Cases</h2>
+        <span class="line"></span>
+      </div>
+
+      <div class="cases-grid">
+        <div 
+          class="case-card" 
+          *ngFor="let c of getCasesByIds([18,19,20,21,22])" 
+          [ngClass]="{ 'is-free': isFree(c.caseId) }"
+          [routerLink]="['/case', c.caseId]">
+          
+          <div class="free-badge" *ngIf="isFree(c.caseId)">ФРИШКА</div>
+
+          <div class="image-wrapper">
+            <img 
+              [src]="c.imageUrl" 
+              [alt]="c.name" 
+              class="case-image"
+              (error)="onImgError($event)">
+          </div>
+
+          <div class="case-price">
+            <ng-container *ngIf="isFree(c.caseId); else standardPrice">
+              <span class="free-text">ПРОСТО БЕРИ</span>
+            </ng-container>
+
+            <ng-template #standardPrice>
+              <span class="price-value">{{ c?.price ? c.price.toFixed(2) : '0.00' }}</span>
+              <span class="currency-icon">$</span>
+            </ng-template>
+          </div>
+
+          <h3 class="case-name">{{ c.name }}</h3>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- строка 3 с кейсами -->
+    <section class="cases-section">
+      <div class="section-header">
+        <span class="line"></span>
+        <h2 class="section-title">Roshpit</h2>
+        <span class="line"></span>
+      </div>
+
+      <div class="cases-grid">
+        <div 
+          class="case-card" 
+          *ngFor="let c of getCasesByIds([13,14,15,16,17])" 
+          [ngClass]="{ 'is-free': isFree(c.caseId) }"
+          [routerLink]="['/case', c.caseId]">
+          
+          <div class="free-badge" *ngIf="isFree(c.caseId)">ФРИШКА</div>
+
+          <div class="image-wrapper">
+            <img 
+              [src]="c.imageUrl" 
+              [alt]="c.name" 
+              class="case-image"
+              (error)="onImgError($event)">
+          </div>
+
+          <div class="case-price">
+            <ng-container *ngIf="isFree(c.caseId); else standardPrice">
+              <span class="free-text">ПРОСТО БЕРИ</span>
+            </ng-container>
+
+            <ng-template #standardPrice>
+              <span class="price-value">{{ c?.price ? c.price.toFixed(2) : '0.00' }}</span>
+              <span class="currency-icon">$</span>
+            </ng-template>
+          </div>
+
+          <h3 class="case-name">{{ c.name }}</h3>
+
+        </div>
+      </div>
+    </section>
+    
+    <!-- строка 5 с кейсами -->
+    <section class="cases-section">
+      <div class="section-header">
+        <span class="line"></span>
+        <h2 class="section-title">Rune cases</h2>
+        <span class="line"></span>
+      </div>
+
+      <div class="cases-grid">
+        <div 
+          class="case-card" 
+          *ngFor="let c of getCasesByIds([23,24,25,26,27])" 
+          [ngClass]="{ 'is-free': isFree(c.caseId) }"
+          [routerLink]="['/case', c.caseId]">
+          
+          <div class="free-badge" *ngIf="isFree(c.caseId)">ПРОСТО БЕРИ</div>
+
+          <div class="image-wrapper">
+            <img 
+              [src]="c.imageUrl" 
+              [alt]="c.name" 
+              class="case-image"
+              (error)="onImgError($event)">
+          </div>
+
+          <div class="case-price">
+            <ng-container *ngIf="isFree(c.caseId); else standardPrice">
+              <span class="free-text">ПРОСТО БЕРИ</span>
+            </ng-container>
+
+            <ng-template #standardPrice>
+              <span class="price-value">{{ c?.price ? c.price.toFixed(2) : '0.00' }}</span>
+              <span class="currency-icon">$</span>
+            </ng-template>
+          </div>
+
+          <h3 class="case-name">{{ c.name }}</h3>
+
+        </div>
+      </div>
+    </section>
+    
+    <!-- строка 6 с кейсами -->
+    <section class="cases-section">
+      <div class="section-header">
+        <span class="line"></span>
+        <h2 class="section-title">Role chests</h2>
+        <span class="line"></span>
+      </div>
+
+      <div class="cases-grid">
+        <div 
+          class="case-card" 
+          *ngFor="let c of getCasesByIds([28,29,30,31])" 
+          [ngClass]="{ 'is-free': isFree(c.caseId) }"
+          [routerLink]="['/case', c.caseId]">
+          
+          <div class="free-badge" *ngIf="isFree(c.caseId)">ФРИШКА</div>
+
+          <div class="image-wrapper">
+            <img 
+              [src]="c.imageUrl" 
+              [alt]="c.name" 
+              class="case-image"
+              (error)="onImgError($event)">
+          </div>
+
+          <div class="case-price">
+            <ng-container *ngIf="isFree(c.caseId); else standardPrice">
+              <span class="free-text">ПРОСТО БЕРИ</span>
+            </ng-container>
+
+            <ng-template #standardPrice>
+              <span class="price-value">{{ c?.price ? c.price.toFixed(2) : '0.00' }}</span>
+              <span class="currency-icon">$</span>
+            </ng-template>
+          </div>
+
+          <h3 class="case-name">{{ c.name }}</h3>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- строка 6 с кейсами -->
+    <section class="cases-section">
+      <div class="section-header">
+        <span class="line"></span>
+        <h2 class="section-title">Tasty special</h2>
+        <span class="line"></span>
+      </div>
+
+      <div class="cases-grid">
+        <div 
+          class="case-card" 
+          *ngFor="let c of getCasesByIds([32,33,34,35,36])" 
+          [ngClass]="{ 'is-free': isFree(c.caseId) }"
+          [routerLink]="['/case', c.caseId]">
+          
+          <div class="free-badge" *ngIf="isFree(c.caseId)">ФРИШКА</div>
+
+          <div class="image-wrapper">
+            <img 
+              [src]="c.imageUrl" 
+              [alt]="c.name" 
+              class="case-image"
+              (error)="onImgError($event)">
+          </div>
+
+          <div class="case-price">
+            <ng-container *ngIf="isFree(c.caseId); else standardPrice">
+              <span class="free-text">ПРОСТО БЕРИ</span>
+            </ng-container>
+
+            <ng-template #standardPrice>
+              <span class="price-value">{{ c?.price ? c.price.toFixed(2) : '0.00' }}</span>
+              <span class="currency-icon">$</span>
+            </ng-template>
+          </div>
+
+          <h3 class="case-name">{{ c.name }}</h3>
+
+        </div>
+      </div>
+    </section>
+
+  </ng-container>
+
+</div>

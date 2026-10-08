@@ -1,0 +1,545 @@
+// Главный контейнер шапки 
+.navbar {
+  display: flex;
+  align-items: center;
+  padding: 15px 40px;
+
+  background-image: 
+    linear-gradient(rgba(26, 8, 45, 0.75), rgba(26, 8, 45, 0.75)),
+    url('/assets/site/bg_moon_psd.avif');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  border-bottom: 1px solid #2b3040;
+  color: #fff;
+} 
+
+
+
+  // Стили логотипа TASTYDROP
+  .logo {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 24px;
+    cursor: pointer;
+
+    .logo-white {
+      color: #ffffff;
+    }
+
+    .logo-orange {
+      color: #ff9900;
+    }
+  }
+
+  .nav-link {
+    margin-left: 15px;
+    color: #fff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 5px; // расстояние между иконкой и текстом
+    font-weight: 600;
+    font-size: 15px;
+    transition: color 0.2s ease;
+
+    .icon img {
+      width: 26px;
+      height: 26px;
+      transform: translateY(-2px);
+      filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg);
+      transition: filter 0.2s ease, transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+
+    .nav-link.battlepass .icon img {
+      filter: none;          // отключаем серый фильтр
+      width: 26px;
+      height: 26px;
+      object-fit: contain;
+    }
+
+
+    .text {
+      font-size: 13px;
+    }
+
+    //при наведении
+    &:hover {
+      color: #ff9900;
+
+      .icon img {
+        filter: invert(62%) sepia(100%) saturate(500%) hue-rotate(10deg);
+      }
+    }
+
+    &.active {
+      color: #fff;
+      text-decoration: none;
+    }
+  }
+
+  // Правый блок пользователя (баланс + кнопки или профиль)
+  .user-block {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-left: auto;
+
+    // Карточка баланса
+    .balance-card {
+      background: #1e222d;
+      padding: 6px 14px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid #2b3040;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background-color: #ff9900;
+        background: #252a38;
+      }
+
+      // Сумма денег
+      .balance-value {
+        font-weight: bold;
+        color: #28a745;
+      }
+
+      // Специфичные стили для карточки BP
+      &.bp-card {
+      border-color: rgba(168, 85, 247, 0.4);
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.12), #1e222d);
+
+      &:hover {
+        background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), #252a38);
+      }
+
+      .bp-icon {
+        display: flex;
+        align-items: center;
+
+        .bp-coin-img {
+          width: 20px;
+          height: 20px;
+          object-fit: contain;
+          display: block;
+        }
+      }
+
+      .bp-value {
+        color: #a855f7; // Фиолетовый акцент под стиль BP
+      }
+    }
+
+    // Стили для кнопки пополнения обычного баланса
+    .btn-deposit {
+      background-color: #ff9900;
+      border: none;
+      color: #fff;
+      border-radius: 4px;
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+
+      &:hover {
+        background: #e68a00;
+      }
+    }
+  
+
+
+      // Кнопка пополнения ("+")
+      .btn-deposit {
+        background-color: #ff9900;
+        border: none;
+        color: #fff;
+        border-radius: 4px;
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+
+        &:hover {
+          background: #e68a00;
+        }
+      }
+    }
+
+    // Выпадающее меню профиля (содержит кнопку-человечка и меню)
+    .profile-dropdown-wrapper {
+      position: relative;
+
+      // Кнопка-аватарка (иконка человечка)
+      .avatar-btn {
+        background: #1e222d;
+        border: 1px solid #2b3040;
+        color: #8b94a7;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+
+        &:hover {
+          color: #fff;
+          border-color: #ff9900;
+          background: #2b3040;
+        }
+      }
+
+      // Выпадающее окно (меню)
+      .dropdown-menu {
+        position: absolute;
+        top: 50px;
+        right: 0;
+        width: 220px;
+        background: #150a26;
+        border: 1px solid #2b3040;
+        border-radius: 10px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        padding: 8px;
+        z-index: 1000;
+
+        // Заголовок меню с именем юзера
+        .dropdown-header {
+          padding: 8px 12px;
+          font-weight: bold;
+          color: #ff9900;
+          font-size: 14px;
+          border-bottom: 1px solid #2b3040;
+          margin-bottom: 6px;
+        }
+
+        // Пункты меню (Профиль, Выйти)
+        .dropdown-item {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          width: 100%;
+          padding: 10px 12px;
+          color: #e2e8f0;
+          text-decoration: none;
+          background: transparent;
+          border: none;
+          border-radius: 6px;
+          font-size: 14px;
+          font-weight: 600;
+          cursor: pointer;
+          text-align: left;
+          box-sizing: border-box;
+          transition: background 0.2s, color 0.2s;
+
+          &:hover {
+            background: #2b3040;
+            color: #fff;
+          }
+
+          // Особая стилизация кнопки "Выйти"
+          &.logout-btn {
+            color: #ff5555;
+
+            &:hover {
+              background: rgba(255, 85, 85, 0.15);
+            }
+          }
+        }
+
+        // Полоса-разделитель
+        .dropdown-divider {
+          height: 1px;
+          background: #2b3040;
+          margin: 6px 0;
+        }
+      }
+    }
+  }
+
+  // Базовые стили для кнопок входа и регистрации
+  button {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
+  // Твоя фиолетовая градиентная кнопка "Войти"
+  .btn-login {
+    background: linear-gradient(90deg, #4C1D95, #6D28D9);
+    color: #fff;
+  }
+
+  // Твоя фиолетово-розовая градиентная кнопка "Регистрация"
+  .btn-register {
+    background: linear-gradient(90deg, #9333EA, #EC4899);
+    color: #fff;
+  }
+
+
+/* ---------------- АНИМАЦИЯ ВЫЕЗДА СПРАВА ---------------- */
+@keyframes slideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(40px) scale(0.85);
+  }
+
+  70% {
+    transform: translateX(-4px) scale(1.02);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* ---------------- СТИЛИ ЛЕНТЫ ДРОПОВ (LIVE FEED) ---------------- */
+.live-feed-bar {
+  width: 100%;
+  height: 65px;
+  background: #11051f;
+  border-bottom: 1px solid #231638;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+
+  .live-feed-track {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 12px;
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .drop-card {
+      position: relative;
+      flex: 0 0 80px;
+      height: 52px;
+      background: #1a0f2e;
+      border-radius: 6px;
+      border: 1px solid #2d1b4d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all 0.2s ease-in-out;
+
+      /*  Анимация появления */
+      animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      will-change: transform, opacity;
+
+      /* Картинка шмотки */
+      .drop-image {
+        max-width: 85%;
+        max-height: 80%;
+        object-fit: contain;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+      }
+
+      /* Оверлей при наведении */
+      .drop-hover-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(18, 9, 36, 0.94);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        padding: 3px;
+
+
+        //для картинки апгрейда 
+        .upgrade-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1px;
+
+            img {
+              width: 26px;         /* Ограничиваем ширину стрелочки */
+              height: 26px;        /* Ограничиваем высоту */
+              object-fit: contain;
+            }
+
+            span {
+              font-size: 9px;
+              font-weight: bold;
+              color: #00ff88;      /* Красивый зелёный цвет или #ff9900 */
+              text-transform: uppercase;
+              line-height: 1;
+            }
+          }
+
+        .hover-case-img {
+          width: 26px;
+          height: 26px;
+          object-fit: contain;
+          transition: transform 0.15s ease;
+
+          &:hover {
+            transform: scale(1.1);
+          }
+        }
+
+        .hover-username {
+          font-size: 10px;
+          color: #ff9900;
+          font-weight: 600;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 90%;
+          padding: 1px 4px;
+          border-radius: 3px;
+          transition: background 0.15s ease, color 0.15s ease;
+
+          &:hover {
+            background: #ff9900;
+            color: #11051f;
+          }
+        }
+      }
+
+      /* Полоса редкости снизу */
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: #888;
+        z-index: 2;
+        border-bottom-left-radius: 6px;
+        border-bottom-right-radius: 6px;
+      }
+
+      &.common::after {
+        background: #b0c3d9;
+      }
+
+      &.rare::after {
+        background: #4b69ff;
+      }
+
+      &.mythical::after {
+        background: #8847ff;
+      }
+
+      &.legendary::after {
+        background: #d32ce6;
+      }
+
+      &.immortal::after {
+        background: #e4ae39;
+      }
+
+      &.arcana::after {
+        background: #ade55c;
+      }
+
+      /* Hover эффекты */
+      &:hover {
+        border-color: #ff9900;
+
+        .drop-image {
+          opacity: 0;
+          transform: scale(0.8);
+        }
+
+        .drop-hover-overlay {
+          opacity: 1;
+        }
+      }
+
+      /* Всплывающее окно при наведении */
+      .drop-popover {
+        position: absolute;
+        top: 60px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-5px);
+        background: #180d2b;
+        border: 1px solid #3b285c;
+        border-radius: 8px;
+        padding: 10px;
+        width: 190px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+        pointer-events: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        font-size: 12px;
+        color: #ddd;
+
+        .popover-case {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+
+          .case-mini-img {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+          }
+
+          strong {
+            color: #fff;
+          }
+        }
+
+        .popover-user {
+          border-top: 1px solid #2d1b4d;
+          padding-top: 6px;
+
+          .user-link {
+            color: #ff9900;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: underline;
+
+            &:hover {
+              color: #ffb84d;
+            }
+          }
+        }
+      }
+    }
+  }
+}

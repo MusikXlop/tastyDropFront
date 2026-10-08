@@ -1,0 +1,275 @@
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.wheel-page {
+  display: flex; // контейнер страницы — flexbox
+  justify-content: center; // выравнивание по центру горизонтально
+  align-items: center; // выравнивание по центру вертикально
+  min-height: calc(100vh - 80px); // высота страницы = весь экран минус 80px (например, под хедер)
+  padding: 20px; // внутренние отступы
+  color: #fff; // цвет текста по умолчанию
+
+  .wheel-container {
+    display: flex; // контейнер для панели и колеса
+    gap: 40px; // расстояние между панелью и колесом
+    background: rgba(22, 25, 32, 0.85); // фон контейнера
+    backdrop-filter: blur(8px);
+    padding: 30px; // внутренние отступы
+    border-radius: 16px; // скруглённые углы
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5); // тень
+    max-width: 1000px; // максимальная ширина
+    width: 100%; // занимает всю доступную ширину
+
+    @media (max-width: 850px) {
+      flex-direction: column; // на узких экранах элементы идут вертикально
+    }
+  }
+}
+
+.control-panel {
+  flex: 1; // занимает половину контейнера
+  display: flex; // flexbox
+  flex-direction: column; // элементы идут сверху вниз
+  gap: 20px; // расстояние между элементами
+
+  .game-title {
+    font-size: 28px; // размер текста
+    font-weight: 800; // жирный шрифт
+    color: #f39c12; // оранжевый цвет
+    margin: 0; // убираем отступы
+  }
+
+  .input-group {
+    display: flex; // flexbox
+    flex-direction: column; // элементы идут вертикально
+    gap: 8px; // расстояние между label и input
+
+    label {
+      font-size: 14px; // размер текста
+      color: #a0a5b5; // серый цвет
+    }
+
+    input {
+      background: #0f1115; // фон поля ввода
+      border: 1px solid #2a2e3d; // рамка
+      padding: 12px; // внутренние отступы
+      border-radius: 8px; // скруглённые углы
+      color: #fff; // белый текст
+      font-size: 16px; // размер текста
+      outline: none; // убираем стандартное выделение
+
+      &:focus {
+        border-color: #f39c12; // при фокусе рамка становится оранжевой
+      }
+    }
+  }
+
+  .color-selector {
+    display: grid; // сетка
+    grid-template-columns: repeat(2, 1fr); // 2 колонки
+    gap: 10px; // расстояние между кнопками
+
+    .color-btn {
+      display: flex; // flexbox
+      align-items: center; // выравнивание по центру вертикально
+      gap: 10px; // расстояние между индикатором и текстом
+      background: #0f1115; // фон кнопки
+      border: 2px solid transparent; // рамка прозрачная
+      padding: 10px 14px; // внутренние отступы
+      border-radius: 8px; // скруглённые углы
+      color: #fff; // белый текст
+      cursor: pointer; // курсор "рука"
+      transition: all 0.2s ease; // плавные эффекты
+
+      .btn-icon {
+        width: 24px;
+        height: 24px;
+        object-fit: contain;
+      }
+
+      .btn-label {
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      &.active {
+        background: #202533; // фон активной кнопки
+        box-shadow: 0 0 10px rgba(243, 156, 18, 0.2); // подсветка
+      }
+
+      &:disabled {
+        opacity: 0.5; // полупрозрачная
+        cursor: not-allowed; // курсор "запрещено"
+      }
+    }
+  }
+
+  .btn-spin {
+    background: linear-gradient(135deg, #f39c12, #d35400); // градиент кнопки
+    border: none; // без рамки
+    padding: 16px; // внутренние отступы
+    border-radius: 8px; // скруглённые углы
+    color: #fff; // белый текст
+    font-size: 18px; // размер текста
+    font-weight: 700; // жирный текст
+    cursor: pointer; // курсор "рука"
+    transition: transform 0.1s ease; // плавное движение
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px); // при наведении кнопка чуть поднимается
+    }
+
+    &:disabled {
+      opacity: 0.6; // полупрозрачная
+      cursor: not-allowed; // курсор "запрещено"
+    }
+  }
+
+  .error-banner {
+    background: rgba(231, 76, 60, 0.15); // красный фон с прозрачностью
+    border: 1px solid #e74c3c; // красная рамка
+    color: #e74c3c; // красный текст
+    padding: 10px; // внутренние отступы
+    border-radius: 8px; // скруглённые углы
+    font-size: 14px; // размер текста
+  }
+
+  .result-box {
+    margin-top: 10px; // отступ сверху
+    padding: 12px; // внутренние отступы
+    border-radius: 8px; // скруглённые углы
+    text-align: center; // текст по центру
+    font-weight: bold; // жирный текст
+
+    .win-msg {
+      color: #2ecc71; // зелёный цвет для выигрыша
+    }
+
+    .lose-msg {
+      color: #e74c3c; // красный цвет для проигрыша
+    }
+  }
+}
+
+.wheel-section {
+  flex: 1; // занимает вторую половину контейнера
+  display: flex; // flexbox
+  justify-content: center; // по центру горизонтально
+  align-items: center; // по центру вертикально
+
+  .wheel-wrapper {
+    position: relative; // позиционирование для указателя и центра
+    width: 340px; // ширина колеса
+    height: 340px; // высота колеса
+
+    /* Указательная стрелка сверху */
+    .wheel-pointer {
+      position: absolute; // фиксируем стрелку
+      top: -12px; // сверху
+      left: 50%; // по центру
+      transform: translateX(-50%); // выравнивание по центру
+      width: 0; // треугольник
+      height: 0;
+      border-left: 12px solid transparent; // левая часть стрелки
+      border-right: 12px solid transparent; // правая часть стрелки
+      border-top: 18px solid #e74c3c; // верх стрелки (красный)
+      z-index: 10; // поверх колеса
+    }
+
+    .wheel-disc {
+      width: 100%; // ширина диска
+      height: 100%; // высота диска
+      border-radius: 50%; // круг
+      border: 6px solid #2a2e3d; // рамка
+      position: relative; // для сегментов
+      overflow: hidden; // скрываем лишнее
+      transition: transform 4s cubic-bezier(0.15, 0.9, 0.2, 1); // плавное вращение
+      background: radial-gradient(circle, #1a1e29 0%, #0b0d12 100%); // градиент фона
+      box-sizing: border-box;
+
+      .segment-slice {
+        position: absolute; // каждый сегмент позиционируется
+        width: 100%; // занимает весь круг
+        height: 100%;
+        top: 0;
+        left: 0;
+        transform-origin: 50% 50%;
+
+        /* Лучевой фоновый сектор (сегмент 18 градусов для 20 секторов) */
+        .slice-background {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          /* Вырезаем клиновидный сектор от центра (50% 50%) к верхнему краю */
+          clip-path: polygon(50% 50%, 42% 0%, 58% 0%);
+          border-right: 1px solid rgba(0, 0, 0, 0.3);
+          opacity: 0.85;
+
+          &.brown { background: #8B4513; }
+          &.silver { background: #C0C0C0; }
+          &.gold { background: #FFD700; }
+          &.blue { background: #007EFF; }
+          &.purple { background: #A020F0; }
+          &.immortal { background: #E24C00; }
+        }
+
+        /* Иконка и текст внутри сектора */
+        .slice-content {
+          position: absolute;
+          top: 10px;
+          left: 50%;
+          transform: translateX(-50%);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 2px;
+          z-index: 2;
+          pointer-events: none;
+
+          .segment-icon {
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.8));
+          }
+
+          .segment-text {
+            font-size: 9px;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.9);
+            text-transform: uppercase;
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+
+    .wheel-center-cap {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70px;
+      height: 70px;
+      background: #161920;
+      border: 4px solid #f39c12;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: 900;
+      color: #f39c12;
+      box-shadow: 0 0 15px rgba(0,0,0,0.8);
+      z-index: 5;
+    }
+  }
+}

@@ -1,1 +1,109 @@
 /* You can add global styles to this file, and also import other style files */
+* { //глобал стиль
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', 'Segeo UI', Roboto, sans-serif;
+}
+
+//темно фиол фон
+body {
+    background: #0e061d;
+    background-image: 
+        url('/assets/site/enig.avif'),//парава
+        url('/assets/site/axe.avif'), //лева
+        url('/assets/site/retro_treasure_bg_dark_psd.avif');
+
+
+
+    background-position: 
+        right top 80px, // акс справа отступ 80px  сверху 
+        left top 80px, // енигма
+        center top; // фон по центру
+        
+
+        background-repeat: no-repeat, no-repeat, no-repeat;
+
+    //автоматически размер с ограничением по макс ширине
+    background-size: 
+        min(35vw, 650px) auto, // axe
+        min(35vw, 650px) auto, //enigma
+        cover; // фон по центру
+
+    background-attachment: fixed;  //фиксироовать фон при проктурке
+     color: #ffffff;
+     min-height: 100vh;
+     overflow-x: hidden; /* Защита от горизонтального скролла */
+}
+
+//стилизация скроллбара
+::-webkit-scrollbar{
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #0e061d;
+}
+::-webkit-scrollbar-thumb {
+    background: #231f3d;
+    border-radius: 4px;
+}
+
+
+/* ==========================================
+   GLOBAL BODY BACKGROUND THEMES
+========================================== */
+
+/* Тема для Battle Pass */
+body.bp-theme {
+  background-image: 
+    linear-gradient(rgba(14, 6, 29, 0.5), rgba(14, 6, 29, 0.5)),
+    url('/assets/site/cosmic_heroes_hoard_2025_foreground_psd.avif');
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* Тема для Mines */
+body.mines-theme {
+  background-image: 
+    linear-gradient(rgba(14, 6, 29, 0.4), rgba(14, 6, 29, 0.4)),
+    url('/assets/site/summer_background_psd.avif');
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* тема на Upgrade */
+body.upgrade-theme {
+  background-image:
+    linear-gradient(rgba(14, 6, 29, 0.4), rgba(14, 6, 29, 0.4)),
+    url('/assets/site/sky_background_png.avif'); 
+  background-position: center top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* тема на колесо */
+body.wheel-theme {
+  background-image:
+    linear-gradient(rgba(15, 17, 21, 0.5), rgba(15, 17, 21, 0.5)),
+    url('/assets/site/nemestice_pickscreen_bg_psd.avif'); 
+  background-position: center top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* тема на Crash */
+body.crash-theme {
+  background-image:
+    linear-gradient(rgba(14, 6, 29, 0.4), rgba(14, 6, 29, 0.4)),
+    url('/assets/site/s2_background_psd.avif'); 
+  background-position: center top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}

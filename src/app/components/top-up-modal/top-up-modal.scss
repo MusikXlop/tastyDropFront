@@ -1,0 +1,125 @@
+.modal-backdrop {
+  position: fixed;              // фиксируем фон поверх всей страницы
+  top: 0;                       // от верхнего края
+  left: 0;                      // от левого края
+  width: 100vw;                 // ширина на весь экран
+  height: 100vh;                // высота на весь экран
+  background: rgba(10, 10, 18, 0.85); // полупрозрачный тёмный фон
+  backdrop-filter: blur(8px);   // размываем фон позади модалки
+  display: flex;                // используем flexbox
+  align-items: center;          // выравниваем по вертикали
+  justify-content: center;      // выравниваем по горизонтали
+  z-index: 1000;                // ставим поверх всех элементов
+}
+
+.modal-card {
+  background: #161521;                          // тёмный фон карточки
+  border: 1px solid rgba(255, 255, 255, 0.1);   // лёгкая рамка
+  border-radius: 16px;                          // скруглённые углы
+  padding: 30px;                                // внутренние отступы
+  width: 100%;                                  // занимает всю ширину контейнера
+  max-width: 420px;                             // но не больше 420px
+  position: relative;                           // для позиционирования кнопки закрытия
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);   // тень для объёма
+  color: #fff;                                  // текст белый
+  text-align: center;                           // выравнивание текста по центру
+
+
+  .btn-close {
+    position: absolute;     // позиционируем внутри карточки
+    top: 15px;              // отступ сверху
+    right: 15px;            // отступ справа
+    background: transparent;// без фона
+    border: none;           // без рамки
+    color: #8a8a9e;         // серый цвет
+    font-size: 1.2rem;      // размер шрифта
+    cursor: pointer;        // курсор "рука"
+    &:hover { color: #fff; } // при наведении белый
+  }
+
+  h2 { font-size: 1.6rem; margin-bottom: 6px; } // заголовок
+  .modal-subtitle { color: #8a8a9e; font-size: 0.9rem; margin-bottom: 24px; } // подзаголовок
+}
+
+.amount-display {
+  font-size: 3rem;                          // крупный текст
+  font-weight: 800;                         // жирный
+  color: #a855f7;                           // фиолетовый цвет
+  text-shadow: 0 0 20px rgba(168, 85, 247, 0.4); // свечение
+  margin-bottom: 20px;                      // отступ снизу
+  .currency { font-size: 2rem; color: #8a8a9e; margin-right: 4px; } // знак валюты
+}
+
+
+.slider-container {
+  margin-bottom: 24px; // отступ снизу
+
+  .balance-slider {
+    width: 100%;           // ползунок на всю ширину
+    accent-color: #a855f7; // цвет акцента (ползунок)
+    cursor: pointer;       // курсор "рука"
+    height: 8px;           // высота трека
+    border-radius: 4px;    // скругление
+    background: #232234;   // фон трека
+  }
+
+  .slider-labels {
+    display: flex;                 // flexbox
+    justify-content: space-between;// минимальное и максимальное значение по краям
+    color: #6c6c80;                // серый текст
+    font-size: 0.8rem;             // мелкий шрифт
+    margin-top: 6px;               // отступ сверху
+  }
+}
+
+
+.presets-grid {
+  display: flex;          // сетка кнопок
+  gap: 8px;               // расстояние между кнопками
+  justify-content: center;// выравнивание по центру
+  margin-bottom: 24px;    // отступ снизу
+
+  .preset-btn {
+    background: #232234;                          // тёмный фон
+    border: 1px solid rgba(255, 255, 255, 0.05);  // лёгкая рамка
+    color: #ccc;                                  // серый текст
+    padding: 8px 12px;                            // внутренние отступы
+    border-radius: 8px;                           // скруглённые углы
+    cursor: pointer;                              // курсор "рука"
+    font-weight: 600;                             // полужирный
+    transition: all 0.2s;                         // плавные эффекты
+
+    &:hover, &.active {
+      background: #a855f7;                        // фиолетовый фон
+      color: #fff;                                // белый текст
+      border-color: #a855f7;                      // рамка фиолетовая
+      box-shadow: 0 0 10px rgba(168, 85, 247, 0.3); // свечение
+    }
+  }
+}
+
+.btn-submit {
+  width: 100%;                                   // кнопка на всю ширину
+  padding: 14px;                                 // внутренние отступы
+  border-radius: 10px;                           // скруглённые углы
+  border: none;                                  // без рамки
+  background: linear-gradient(135deg, #a855f7, #6366f1); // градиент
+  color: #fff;                                   // белый текст
+  font-size: 1rem;                               // размер шрифта
+  font-weight: 700;                              // жирный
+  cursor: pointer;                               // курсор "рука"
+  transition: opacity 0.2s;                      // плавное изменение прозрачности
+
+  &:hover { opacity: 0.9; }                      // при наведении чуть прозрачнее
+  &:disabled { opacity: 0.5; cursor: not-allowed; } // при блокировке полупрозрачная и курсор "запрещено"
+}
+
+.error-alert {
+  background: rgba(239, 68, 68, 0.2); // красный полупрозрачный фон
+  border: 1px solid #ef4444;          // красная рамка
+  color: #f87171;                     // красный текст
+  padding: 10px;                      // внутренние отступы
+  border-radius: 8px;                 // скруглённые углы
+  font-size: 0.85rem;                 // мелкий шрифт
+  margin-bottom: 16px;                // отступ снизу
+}

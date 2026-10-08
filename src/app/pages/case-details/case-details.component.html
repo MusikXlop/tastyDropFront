@@ -1,0 +1,215 @@
+<div class="case-details-container">
+
+
+
+  <!-- Шапка кейса -->
+  <div class="case-header" *ngIf="currentCase">
+    <div class="case-badge">
+      <img [src]="currentCase.imageUrl" [alt]="currentCase.name" class="case-icon">
+      <div class="case-title-info">
+        <h2>{{ currentCase.name }}</h2>
+        <span class="price-tag">
+            <img *ngIf="currentCase.currency === 'BP'" src="assets/site/BattlePassBalance.png" alt="BP" class="bp-icon">
+            <span *ngIf="currentCase.currency !== 'BP'">$</span>
+            {{ currentCase.price.toFixed(2) }}
+          </span>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Визуальная зона рулетки (генерируется X штук) -->
+<div class="roulette-container" *ngIf="items.length > 0">
+  <div class="roulette-wrapper" *ngFor="let trackData of rouletteTracksData">
+    <div class="roulette-pointer"></div>
+    <div class="roulette-track"
+               #rouletteTrack
+               [class.idle-scrolling]="!isSpinning">
+      <div class="roulette-item"
+           *ngFor="let item of trackData.items"
+           [ngClass]="getRarityClass(item.rarity)">  <!-- Визуальная ПОдсветка -->
+        <img [src]="item.imageUrl" [alt]="item.name" (error)="onImgError($event)">
+        <span class="item-name">{{ item.name }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <!-- Панель управления -->
+  <div class="actions-panel" *ngIf="currentCase">
+
+    <!--переключатель х1 х5 -->
+    <div class="multiplier-selector">
+      <button 
+        *ngFor="let count of [1,2,3,4,5]"
+        class="multiplier-btn"
+        [class.active]="selectedAmount === count"
+        [disabled]="isSpinning"
+        (click)="selectAmount(count)"> 
+        X{{ count }}
+      </button>
+    </div>
+
+    <!--кнопка открыия-->
+    <ng-container *ngIf="canAfford">
+      <!--беслпатно-->
+      <button 
+        *ngIf="isFreeAvailable  && selectedAmount === 1"
+        class="btn-open btn-free"
+        [disabled]="isSpinning"
+        (click)="openCase()">
+        ХАХАХА ПОВЕЛСЯ ОТКРЫВАЙ ПЛАТНО
+      </button>
+
+      <!-- Платная кнопка (показывается, если кейс не бесплатный или выбран мультикаст > 1) -->
+      <button *ngIf="!(isFreeAvailable && selectedAmount === 1)"
+          class="btn-open"
+          [disabled]="isSpinning"
+          (click)="openCase()">
+          Крутить за 
+          {{ currentCase.currency === 'BP' ? '' : (currentCase.price * selectedAmount).toFixed(0) + ' ₸ (тенге)' }}
+          <ng-container *ngIf="currentCase.currency === 'BP'">
+            {{ (currentCase.price * selectedAmount).toFixed(0) }}
+            <img src="assets/site/BattlePassBalance.png" alt="BP" class="bp-btn-icon">
+          </ng-container>
+      </button>
+
+
+    </ng-container>
+
+    <div *ngIf="!canAfford" class="insufficient-balance-wrapper">
+      <!--не зареган-->
+      <ng-container *ngIf="!authService.currentUser()">
+        <div class="balance-error">
+          🔒 Неа иди регайся
+        </div>
+        <button 
+          class="btn-add-funds" 
+          (click)="navigateToRegister()">
+          Нюхай (БЫСТРЕЕ)
+        </button>
+      </ng-container>
+      <!--нема баланса -->
+      <ng-container *ngIf="authService.currentUser()">
+         <div class="balance-error">
+        🔒 Не хватает 
+        <ng-container *ngIf="currentCase?.currency === 'BP' " >
+          {{ (currentCase.price * selectedAmount).toFixed(2) }}
+          <img src="assets/site/BattlePassBalance.png" alt="BP" class="bp-icon-inline">
+        </ng-container>
+        
+        <ng-container *ngIf="currentCase?.currency !== 'BP'">
+           {{ (currentCase.price * selectedAmount).toFixed(2) }} ₸ для Йетти
+        </ng-container>
+        
+      </div>
+      
+        <!--если кейс за батл пасс-->
+        <button 
+          *ngIf="currentCase?.currency === 'BP'" 
+          class="btn-add-funds" 
+          (click)="navigateToBattlePass()">
+          ИДИ БРАВЛ ПАСС ПРОХОДИ
+        </button>
+
+          
+        <!-- Кнопка 2: Если обычный кейс -> Модалка пополнения -->
+        <button 
+          *ngIf="currentCase?.currency !== 'BP'" 
+          class="btn-add-funds" 
+          (click)="openTopUpModal()">
+          Пополни баланс Йетти
+        </button>
+    
+      </ng-container>
+    </div>
+  </div>
+
+
+
+  <!-- Содержимое кейса -->
+  <div class="contents-section" *ngIf="items.length > 0">
+    <div class="contents-header">
+      <span class="line"></span>
+      <h3>Содержимое кейса</h3>
+      <span class="line"></span>
+    </div>
+
+
+
+    <div class="items-grid">
+      <div class="item-card"
+           *ngFor="let item of items"
+           [ngClass]="getRarityClass(item.rarity)">
+        <div class="item-price">${{ item.price.toFixed(2) }}</div>
+        <div class="item-image-wrapper">
+          <img [src]="item.imageUrl" [alt]="item.name" (error)="onImgError($event)">
+        </div>
+        <div class="item-name">{{ item.name }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Модальное окно пополнения -->
+<app-top-up-modal
+  *ngIf="isTopUpOpen"
+  (close)="closeTopUpModal()">
+</app-top-up-modal>
+
+
+
+<!--вин шмотки (все шмотки)-->
+<div class="win-modal-overlay" *ngIf="wonItems.length > 0 && !isSpinning">
+  <div class="win-modal-content">
+    <h2 class="win-title">ВЫИГРАНО ПРЕДМЕТОВ: {{ wonItems.length }}</h2>
+
+
+    <!--Сетка выбитых предметов-->
+    <div class="win-grid"> 
+      <div class="win-card" 
+        *ngFor="let item of wonItems"
+        [ngClass]="getRarityClass(item.rarity)">
+        <div class="win-image-wrapper">
+          <img [src]="item.imageUrl" [alt]="item.name" (error)="onImgError($event)" />
+        </div>
+        <div class="win-card-name">{{ item.name }} </div>
+        <div class="win-card-price">{{ item.price | number:'1.2-2' }} $ </div>
+      </div>
+    </div>
+
+
+    <!--итоговая инфа-->
+
+    <div class="win-info">
+      <div class="price-badge">
+        <span>Общая стоимость:</span>
+        <strong> {{ totalWonPrice | number:'1.2-2' }} $</strong>
+      </div>
+    </div>
+
+
+    <!--кнопка действия-->
+    <div class="win-actions">
+      <button class="btn-sell" [disabled]="isSelling" (click)="sellWonItems()">
+          {{ isSelling ? 'Продажа...' : 'Продать все за ' + (totalWonPrice | number:'1.2-2') + ' $' }}
+      </button> 
+
+      <button class="btn-keep" (click)="closeWinModal()">
+        Вернуться к кейсу
+      </button>
+    </div>
+
+    <p class="win-note">Предметы можно забрать в моем профиле</p>
+  </div>
+</div> 
+
+
+
+
+
+

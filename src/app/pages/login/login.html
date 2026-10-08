@@ -1,0 +1,170 @@
+<!--login-->
+<!-- Главный оберточный блок для центрирования на странице -->
+<div class="auth-container">
+    <!--карточка формы с фоном и тенями-->
+    <div class="auth-card">
+        <ng-container *ngIf="!isForgotPasswordMode">
+            <h2>Вход в аккаунт</h2>
+            <p class="auth-subtitle">Введи данные свои чтоб зайти на мой сайт</p>
+
+            <!--блок ошибки отображается с помощью ngIf только если errorMessage -->
+            <div class="error-alert" *ngIf="errorMessage">
+                {{ errorMessage }}
+
+                    <!--кнопка редиректа на ввод кода -->
+                    <div *ngIf="requiresConfirmation" class="confirmation-actions">
+                    <button type="button" class="btn-confirm-now" (click)="goToConfirmation()">
+                        Вот сюда жми 
+                    </button>
+                </div>
+            </div>
+
+            <!--при успехе-->
+            <div class="success-alert" *ngIf="successMessage">
+                {{ successMessage }}
+            </div>
+
+            <!--событие ngSubmit перехватывает отправку и вызывает метод onSubmit()-->
+            <form (ngSubmit)="onSubmit()">
+
+                <div class="form-group">
+                    <label for="email">Почта</label>
+                    <input
+                    type="text"
+                    id="email"
+                    name="email"
+                    [(ngModel)]="credentials.email"
+                    placeholder="Введите вашу почту"
+                    required
+                    />
+
+                </div>
+
+                <!--пароль и забыл пароль-->
+                <div class="form-group">
+                    
+                    <label for="password">Пароль</label>
+                       
+                    <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    [(ngModel)]="credentials.password"
+                    placeholder="Введите ваш пароль"
+                    required
+                    />
+                     <!--клик прееключает форму забыл пароль на true-->
+                    <a type="button" class="forgot-link-under" 
+                        (click)="toggleForgotPassword(true)">
+                        КАК ТЫ ПОСМЕЛ ЗАБЫТЬ ПАРОЛЬ? ЖМИ
+                    </a>
+                </div>
+                <!-- Кнопка отправки: [disabled]="isLoading"
+                отключает клики во время отправки запроса -->
+                <button type="submit" class="btn-submit" [disabled]="isLoading"> 
+                    <span *ngIf="!isLoading">Войти</span>
+
+                    <span *ngIf="isLoading">Загрузка....</span>
+
+                </button>
+            </form>
+            <div class="auth-footer">
+                <span>Еще нет акка? Как Так РЕГАЙСЯ!</span>
+                <a routerLink="/register">Зарегистрироваться (быстрее)</a>
+            </div>
+        </ng-container>
+
+
+        <!--сброс пароля-->
+        <ng-container *ngIf="isForgotPasswordMode">
+            <h2>Сброс пароля</h2>
+            <p class="auth-subtitle">Восстановить доступ к акку</p>
+
+            <!--ошибки-->
+            <div class="error-alert" *ngIf="errorMessage">{{ errorMessage }}</div>
+            <div class="success-alert" *ngIf="successMessage">{{ successMessage }}</div>
+
+            <!--внутри сброса ввод почты и высылка кода-->
+            <div *ngIf="!isResetCodeSent">
+                <div class="form-group">
+                    <label>Введи почту свою еще раз</label>
+                    <input 
+                        type="email"
+                        [(ngModel)]="resetData.email"
+                        placeholder="Вводи почту давай"
+                    />
+                </div>
+                <!--кнопка отпрапвить на почту код ( в сбросе пароля)-->
+                <button type="button" class="btn-submit" [disabled]="isLoading" 
+                    (click)="onRequestResetCode()">
+                    <span *ngIf="!isLoading">Выслать код</span>
+                    <span *ngIf="isLoading">Отправка...</span>
+                </button>
+            </div>
+
+            <!--внутри сброса ввод кода нью пароля и подтверждения-->
+            <div *ngIf="isResetCodeSent">
+                <!--ввод 6знач кода-->
+                <div class="form-group">
+                    <label>6 значный код из письма</label>
+                    <input 
+                        type="text"
+                        name="resetCode_nofill"
+                        id="resetCode_nofill"
+                        [(ngModel)]="resetData.code"
+                        placeholder="123456"
+                        maxlength="6"
+                        inputmode="numeric"
+                        autocomplete="one-time-code"
+                        readonly
+                        (focus)="removeReadOnly($event)"
+                    />
+                </div>
+
+                <!--ввол нью пароля-->
+                <div class="form-group">
+                    <label>Нью пароль</label>
+                    <input 
+                        type="password"
+                        name="newPassword_nofill"
+                        id="newPassword_nofill"
+                        [(ngModel)]="resetData.newPassword"
+                        placeholder="Введи нью пароль" 
+                        autocomplete="new-password"
+                        readonly
+                        (focus)="removeReadOnly($event)"
+                    />
+                </div>
+
+                <!--подтверждение нью пароля-->
+                <div class="form-group">
+                    <label>Подтверди нью пароль</label>
+                    <input 
+                        type="password"
+                        name="confirmPassword_nofill"
+                        id="confirmPassword_nofill"
+                        [(ngModel)]="resetData.confirmPassword"
+                        placeholder="Повтори нью пароль"
+                        autocomplete="new-password"
+                        readonly
+                        (focus)="removeReadOnly($event)"
+                    />
+                </div>
+
+                <!--кнопка сохранения нью пароля-->
+                <button type="button" class="btn-submit" [disabled]="isLoading" (click)="onSubmitNewPassword()">
+                    <span *ngIf="!isLoading">Сохранить новый пароль</span>
+                    <span *ngIf="isLoading">Сохранение...!</span>
+                </button>
+            </div>
+
+            <!--кнопка возврата к обычнйо форме авториации-->
+            <div class="auth-footer">
+                <a type="button" class="back-link" (click)="toggleForgotPassword(false)">← Я НЕ ТУДА НАЖАЛ</a>
+            </div>
+
+        </ng-container>
+
+
+    </div>
+</div>

@@ -1,0 +1,250 @@
+<!---->
+<div class="upgrade-container">
+
+    <!--верхник блок апгрейдер и круг шанса-->
+    <div class="upgrade-dashboard">
+
+        <!--предмет пользователя(мои) СЛЕВА-->
+
+        <div class="item-slot source-slot">
+            <span class="slot-title">Закинь шмотку чтоб даунгрейднуть</span>
+
+            <div class="slot-content" *ngIf="selectedSourceItem; else emptySource">
+                <img [src]="selectedSourceItem.imageUrl" [alt]="selectedSourceItem.name" (error)="onImgError($event)">
+                <div class="item-info">
+                    <span class="item-name">{{ selectedSourceItem.name }} </span>
+                    <span class="item-price">{{ selectedSourceItem.price.toFixed(2) }} $</span>
+                </div>
+            </div>
+
+            <!--заглушка на слот слева-->
+            <ng-template #emptySource>
+                <div class="empty-placeholder">
+                    <img src="assets/cases/left-mock.avif" class="silhouette-img" alt="Placeholder" />
+                </div>
+            </ng-template>
+        </div>
+
+        <!--круговой блок и кнопка-->
+        <div class="gauge-center-block">
+            <div class="gauge-wrapper" [class.win]="isWin === true" [class.lose]="isWin === false">
+
+                <!--засечки шкалы вокруг колеса-->
+                <div class="gauge-ticks"></div>
+
+                <!--svg колесо-->
+                <svg class="gauge-svg" viewBox="0 0 200 200">
+                    <defs> 
+                        <!--градиент шанса-->
+                        <linearGradient id="chanceGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#ffcc00" />
+                            <stop offset="100%" stop-color="#ff3300" />
+                        </linearGradient>
+                    </defs>
+
+                    <!--фоновое кольцо -->
+                    <circle class="gauge-bg" cx="100" cy="100" r="80" /> 
+                    
+                    <!--заполеение дуги шанса -->
+                    <circle 
+                        class="gauge-fill"
+                        cx="100"
+                        cy="100"
+                        r="80"
+                        [style.strokeDashoffset]="502 - (502 * winChance) / 100"
+                    /> 
+                </svg>
+
+                <!--текст внутри круга-->
+                <div class="gauge-inner-circle">
+                    <div class="gauge-text">
+                        <span class="chance-value"> {{ winChance}}%</span>
+                        <span class="chance-label"> {{ chanceLabel}} </span>
+                    </div>
+                </div>
+               
+
+                <!--стрелка результата-->
+                <div 
+                    class="gauge-arrow"
+                    [class.spinning]="isUpgrading"
+                    [style.transform]="'translate(-50%, -50%) rotate(' + arrowAngle + 'deg)'">    
+                    <div class="arrow-head"></div>
+                 </div>
+
+                <!-- Маркеры процентов по бокам колеса -->
+                <span class="percent-tag top-100">0 / 100%</span>
+                <span class="percent-tag right-25">25%</span>
+                <span class="percent-tag bottom-50">50%</span>
+                <span class="percent-tag left-75">75%</span>
+                
+            </div>
+
+
+            <!--кнопка запуска апгрейда-->
+            <button
+                class="upgrade-btn"
+                [disabled]="!selectedSourceItem || !selectedTargetItem || isUpgrading"
+                (click)="startUpgrade()">
+                <span class="btn-icon">✈︎</span> DownGrade
+            </button>
+        </div>
+
+        <!--Правая карточка выбранная цель-->
+        <div class="item-slot target-slot">
+            <span class="slot-title">Выбери шмотку которую ты никогда не получишь</span>
+
+            <div class="slot-content" *ngIf="selectedTargetItem; else emptyTarget">
+                <img [src]="selectedTargetItem.imageUrl" [alt]="selectedTargetItem.name" (error)="onImgError($event)">
+                <div class="item-info">
+                    <span class="item-name"> {{ selectedTargetItem.name }} </span>
+                    <span class="item-price"> {{ selectedTargetItem.price.toFixed(2) }} $</span>
+                </div>
+            </div>
+
+            <!--Заглушка-силуэт на весь правый слот-->
+            <ng-template #emptyTarget>
+                <div class="empty-placeholder">
+                    <img src="assets/cases/right-mock.avif" class="silhouette-img" alt="Placeholder" />
+                </div>
+            </ng-template>
+        </div>
+
+    </div>
+
+    <!--две сетки (инвентарь и магаз)-->
+    <div class="tables-section">
+
+        <!--сетка слева мои скины-->
+        <div class="grid-panel my-skins-panel">
+            <div class="panel-header">
+                <h3><span class="icon">🧑‍🦽</span>Мои скины</h3>
+            </div>
+
+            <div class="skins-grid" *ngIf="!isLoadingInventory; else loadingSkins">
+                <!--если скины есть -->
+                <ng-container *ngIf="myInventory.length > 0; else emptyInventory">
+                    <div
+                        class="skin-card"
+                        *ngFor="let item of myInventory"
+                        [class.selected]="selectedSourceItem?.inventoryId === item.inventoryId"
+                        [ngClass]="getRarityClass(item.rarity)"
+                        (click)="selectSourceItem(item)">
+
+                        <div class="card-price">{{ item.price.toFixed(2) }} $</div>
+                        
+                        <img [src]="item.imageUrl" [alt]="item.name" (error)="onImgError($event)">
+                        
+                        <div class="card-name"> {{ item.name }}</div>
+                    </div>
+                </ng-container> 
+                
+                
+               
+                <!--если инвентарь пуст-->
+                <ng-template #emptyInventory>
+
+                    <div class="empty-inventory">
+
+                        <!--фон из одинаковых картинок-->
+                        <div class="empty-inventory-background">
+
+                            <div class="placeholder-skin" *ngFor="let item of placeholderItems">
+                                <img src="assets/cases/upgrade-mock.avif" alt="placeholder">
+                            </div>
+
+                        </div>
+
+
+                        <!--центральная плашка-->
+                        <div class="empty-inventory-message">
+
+                            <div class="empty-message-title">
+                                Нет предметов для даунгрейда?
+                            </div>
+
+                            <div class="empty-message-text">
+                                Открой кейс ради меня
+                            </div>
+
+                            <button class="open-case-btn" routerLink="/">
+                                Иди открывай
+                            </button>
+                        </div>
+                    </div>
+                </ng-template>
+
+            </div>
+
+            <ng-template #loadingSkins>
+                <div class="loading-state">Загружаю инвентарь свой....</div>
+            </ng-template>
+        </div>
+
+        <!--Сетка справа все предметы из бд-->
+        <div class="grid-panel all-skins-panel">
+
+            <!--шапка с поиском и фильтром-->
+            <div class="panel-header search-header">
+                <h3><span class="icon">🎃</span> Выбери скын</h3>
+
+                <div class="filter-controls"> 
+                    <!-- Поиск по имени -->
+                    <input
+                        type="text"
+                        placeholder="Search..."
+                        [(ngModel)]="searchQuery"
+                        (input)="applyFilters()"
+                        class="search-input">
+
+                    <!--цене от (мин)-->
+                    <input
+                        type="number"
+                        placeholder="От $"
+                        [(ngModel)]="minPrice"
+                        (input)="applyFilters()"
+                        class="price-input">
+
+                     <!--цена до (макс)-->
+                    <input
+                        type="number"
+                        placeholder="До $"
+                        [(ngModel)]="maxPrice"
+                        (input)="applyFilters()"
+                        class="price-input">
+
+
+                    <!-- Выбор редкости -->
+                    <select [(ngModel)] ="selectedRarity" (change)="applyFilters()" class="rarity-select">
+                        <option value="all">All rarities</option>
+                        <option value="arcana">Arcana</option>
+                        <option value="immortal">Immortal</option>
+                        <option value="legendary">Legendary</option>
+                        <option value="mythical">Mythical</option>
+                        <option value="rare">Rare</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="skins-grid" *ngIf="!isLoadingAllItems; else loadingAll">
+                <div
+                    class="skin-card"
+                    *ngFor="let item of filteredAllItems"
+                    [class.selected]="selectedTargetItem?.itemId === item.itemId"
+                    [ngClass]="getRarityClass(item.rarity)"
+                    (click)="selectTargetItem(item)">
+
+                    <div class="card-price"> {{ item.price.toFixed(2) }} $</div>
+                    <img [src]="item.imageUrl" [alt]="item.name" (error)="onImgError($event)">
+                    <div class="card-name"> {{ item.name }} </div>
+                </div>
+            </div>
+
+            <ng-template #loadingAll>
+                <div class="loading-state">Загрузка шмоток.... </div>
+            </ng-template>
+
+        </div>        
+    </div>
+
+</div>

@@ -1,0 +1,124 @@
+
+
+<!--главный оберточный контейнер страницы профиля-->
+<div class="profile-container">
+    <!--шапка страницы профиля юзер-->
+    <div class="profile-header">
+
+        <!--блок авы мб-->
+        <div class="avatar-box">
+            <!--иконка рофиля-->
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+        </div>
+
+
+
+
+        <!--текстовый блок юзера-->
+        <div class="user-details">
+            <!-- Выводим вычисленное имя для этого профиля -->
+            <h1>{{ targetUsername }}</h1>
+            <span class="user-status">{{ isOwnProfile ? 'Заложник' : 'Подчиненный сайта' }}</span>
+        </div>
+    
+        
+        <div class="bp-wrapper">
+            <!--шляпа для батл пасса-->
+            <div class="bp-badge-container" [title]="'Уровень Battle Pass: ' + userBpLevel">
+                <!--1е круговая рамка(БЕК лвла)-->
+                <img [src]=" 'assets/bp/bg_' + getBpTierIndex() + '_psd.avif'" class="bp-layer bp-bg" alt="BG Tier">
+
+                <!--левела сами-->
+                <img [src]="`assets/bp/level_${getFormattedLevelNumber()}_png.avif`" class="bp-layer bp-icon" alt="Level Icon">
+
+                <!--нижняя плашка для лвла-->
+                <img [src]="'assets/bp/bg_number_' + getBpTierIndex() + '_psd.avif'" class="bp-layer bp-num-bg" alt="Number BG">
+
+                <!--  Цифра лвла -->
+                <span class="bp-level-text">{{ userBpLevel }}</span>
+            </div>
+
+            <span class="bp-title">BRAWL PASS LVL</span>
+
+        </div>
+
+       
+
+
+
+        <!--блок бест оф зе бест дропа-->
+        @if (bestDrop) {
+        <div class="best-drop-card">
+            <div class="best-drop-badge">🏆 ПРОСТО БОСС</div>
+            
+            <div class="best-drop-media">
+                <!--сверху картинки  ценаа-->
+                <span class="best-drop-price">{{ bestDrop.price }} $</span>
+
+                <!--Картинка предмета-->
+                <img [src]="bestDrop.imageUrl" [alt]="bestDrop.name" />
+
+                <!--снизу картинки  назва-->
+                <span class="best-drop-name">{{ bestDrop.name }}</span>
+            </div>
+        </div>
+        }
+    </div>
+
+    
+
+
+
+    <!--блок инвентаря предметов-->
+    <div class="inventory-section">
+        <h2>Инвентарь</h2>
+        
+        <!--состоянию 1 ОТображается если у пользователя пустой инвентарь-->
+        @if(isLoading) {
+            <div class="loading">Загрузка...</div>
+        } @else if (userItems.length === 0) {
+            <div class="empty-inventory">
+                <div class="empty-icon">📦</div>
+                <h3>Пользователь еще не открыл МОИ кейсы</h3>
+                <p>Иди быстро открывай их!!!!</p>
+            </div>
+        } @else {
+            <!--состояние 2 Отображается когда в инвентаре есть предмты-->
+            <div class="items-grid">
+                <!--циклом проходим по массиву предметов и рендерим карточку для каждого-->
+                @for (item of userItems; track item.inventoryId ?? $index) {
+                    <div class="item-card" >
+                        <img [src]="item.imageUrl" [alt]="item.name" />
+                        <span class="item-name"> {{item.name}}</span>
+                        <span class="item-price">{{item.price}} $</span>
+
+                        <!--действия с предметом-->
+                        <div class="item-actions" *ngIf="isOwnProfile">
+                            <button class="btn-sell" (click)="onSell(item.inventoryId)">
+                                Продать 
+                            </button> 
+                            <button class="btn-withdraw" (click)="onWithdraw(item.inventoryId)">
+                                Вывести
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+
+<!--контейнер для всплывающих уведов-->
+<div class="toast-container">
+    @for (toast of toasts; track toast.id) {
+        <div class="toast" [ngClass]="toast.type">
+            <span class="toast-icon">{{ toast.type === 'success' ? '🏳️‍🌈' : '🏳️‍⚧️' }}</span>
+            <span class="toast-message">{{ toast.message }}</span>
+        </div>
+    }
+
+</div>

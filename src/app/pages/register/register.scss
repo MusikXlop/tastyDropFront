@@ -1,0 +1,204 @@
+/* Отключаем дефолтный глазик в MS Edge и IE */
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 120px);
+  padding: 20px;
+
+  .auth-card {
+    background: #140a26;
+    border: 1px solid #2b3040;
+    border-radius: 16px;
+    padding: 32px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+    h2 {
+      font-size: 24px;
+      font-weight: bold;
+      color: #ffffff;
+      margin-bottom: 6px;
+      text-align: center;
+    }
+
+    .auth-subtitle {
+      font-size: 14px;
+      color: #8b94a7;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .error-alert {
+      background: rgba(255, 85, 85, 0.15);
+      border: 1px solid #ff5555;
+      color: #ff5555;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 14px;
+      margin-bottom: 18px;
+      text-align: center;
+
+      .already-exists-actions {
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px dashed rgba(255, 85, 85, 0.4);
+
+        .hint-text {
+          font-size: 13px;
+          color: #e2e8f0;
+          margin-bottom: 10px;
+        }
+
+        .btn-goto-login {
+          background: #2b3040;
+          color: #ff9900;
+          border: 1px solid #ff9900;
+          padding: 8px 14px;
+          border-radius: 6px;
+          font-size: 13px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s ease;
+
+          &:hover {
+            background: #ff9900;
+            color: #140a26;
+          }
+        }
+      }
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+
+      label {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: #e2e8f0;
+        margin-bottom: 6px;
+      }
+
+      /* Обёртка для инпута пароля и иконки */
+      .password-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+
+        input {
+          width: 100%;
+          padding: 12px 42px 12px 14px; /* Оставляем отступ справа под кнопку */
+          background: #1e222d;
+          border: 1px solid #2b3040;
+          border-radius: 8px;
+          color: #ffffff;
+          font-size: 14px;
+          box-sizing: border-box;
+          outline: none;
+          transition: border-color 0.2s;
+
+          &:focus {
+            border-color: #ff9900;
+          }
+
+          &::placeholder {
+            color: #586175;
+          }
+        }
+
+        .toggle-password {
+          position: absolute;
+          right: 12px;
+          background: transparent;
+          border: none;
+          color: #8b94a7;
+          cursor: pointer;
+          padding: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: color 0.2s ease;
+
+          &:hover {
+            color: #ff9900;
+          }
+
+          svg {
+            display: block;
+          }
+        }
+      }
+
+      /* Для обычных инпутов вне .password-wrapper */
+      > input {
+        width: 100%;
+        padding: 12px 14px;
+        background: #1e222d;
+        border: 1px solid #2b3040;
+        border-radius: 8px;
+        color: #ffffff;
+        font-size: 14px;
+        box-sizing: border-box;
+        outline: none;
+        transition: border-color 0.2s;
+
+        &:focus {
+          border-color: #ff9900;
+        }
+
+        &::placeholder {
+          color: #586175;
+        }
+      }
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(90deg, #9333ea, #ec4899);
+      border: none;
+      border-radius: 8px;
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: opacity 0.2s;
+
+      &:hover {
+        opacity: 0.9;
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+
+    .auth-footer {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #8b94a7;
+
+      a {
+        color: #ff9900;
+        text-decoration: none;
+        font-weight: 600;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
